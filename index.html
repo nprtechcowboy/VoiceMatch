@@ -23,7 +23,8 @@
     }
     .header-container { text-align: center; margin-bottom: 10px; }
     .neon-word-1, .neon-word-2, .neon-word-3, .neon-word-4 {
-      font-family: Impact, sans-serif; font-size: 38px; text-transform: uppercase; letter-spacing: 1px;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 38px; text-transform: uppercase; letter-spacing: 1px;
     }
     .neon-word-1 { color: #e026df; }
     .neon-word-2 { color: #aa00ff; }
@@ -36,11 +37,12 @@
     .form-row { display: flex; align-items: flex-end; gap: 15px; margin-bottom: 15px; }
     .form-group { flex: 1; }
     label { display: block; font-weight: bold; margin-bottom: 5px; }
-    .input-field { width: 100%; padding: 12px; border: 1px solid #c9a054; height: 45px; box-sizing: border-box; font-size: 15px; }
+    .input-field { width: 100%; padding: 12px; border: 1px solid #c9a054; height: 45px; box-sizing: border-box; font-size: 15px; background-color: #fffcf7; }
     .btn {
       background: linear-gradient(135deg, #aa00ff 0%, #e026df 100%);
-      color: white; border: none; padding: 0 20px; font-weight: bold; border-radius: 4px; cursor: pointer; height: 45px;
+      color: white; border: none; padding: 0 20px; font-weight: bold; border-radius: 4px; cursor: pointer; height: 45px; font-size: 14px;
     }
+    .btn:hover { filter: brightness(0.95); }
     .btn:disabled { background: #e1d7c6; color: #a1886a; cursor: not-allowed; }
     .vu-meter-container { display: none; background-color: #2b2118; padding: 15px; border-radius: 6px; border: 2px solid #c9a054; margin: 25px 0; }
     .vu-grid { display: flex; gap: 4px; height: 20px; }
@@ -49,22 +51,33 @@
     .vu-bar.active-mid { background-color: #aa00ff; }
     .vu-bar.active-high { background-color: #ff007f; }
     .countdown { font-size: 54px; font-weight: bold; text-align: center; display: none; color: #aa00ff; margin: 15px 0; font-family: Impact, sans-serif; }
-    .status-msg { font-style: italic; text-align: center; font-size: 15px; font-weight: 600; min-height: 22px; }
-    .privacy-note { font-size: 12px; color: #70583b; background: #f6ebd2; padding: 12px; border-radius: 6px; margin-top: 20px; }
+    .status-msg { font-style: italic; text-align: center; font-size: 15px; font-weight: 600; min-height: 22px; line-height: 1.4; }
+    .privacy-note { font-size: 12px; color: #70583b; background: #f6ebd2; border: 1px solid #e1d7c6; padding: 12px; border-radius: 6px; margin-top: 20px; line-height: 1.5; }
     .small-note { font-size: 12px; color: #70583b; text-align: center; margin-top: 10px; }
+    
+    @media (max-width: 620px) {
+      .container { padding: 25px 20px; margin: 15px auto; }
+      .form-row { display: block; }
+      .btn { width: 100%; margin-top: 12px; }
+      .neon-word-1, .neon-word-2, .neon-word-3, .neon-word-4 { font-size: 31px; }
+      .subtitle { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header-container">
-      <span class="neon-word-1">Sing</span> <span class="neon-word-2">Your</span> <span class="neon-word-3">Heart</span> <span class="neon-word-4">Out!</span>
+      <span class="neon-word-1">Sing</span> 
+      <span class="neon-word-2">Your</span> 
+      <span class="neon-word-3">Heart</span> 
+      <span class="neon-word-4">Out!</span>
     </div>
     <div class="subtitle">Voice Pitch & Timbre Matcher</div>
 
     <div class="form-row">
       <div class="form-group">
         <label for="userEmail">Email Address:</label>
-        <input type="email" id="userEmail" class="input-field" placeholder="your.email@example.com">
+        <input type="email" id="userEmail" class="input-field" placeholder="your.email@example.com" autocomplete="email">
       </div>
       <button class="btn" id="startBtn" onclick="initiatePitchCapture()">Start</button>
     </div>
@@ -78,7 +91,7 @@
     <div class="small-note" id="pitchDebug"></div>
 
     <div class="privacy-note">
-      This tool listens only during the short test. It sends pitch data to generate matches and does not save your raw recordings.
+      This tool listens only during the short test. It sends pitch and tone measurements to generate your song matches. It does not send or store a live audio recording.
     </div>
   </div>
 
@@ -113,7 +126,7 @@
         executeRound();
       } catch (err) {
         document.getElementById("startBtn").disabled = false;
-        statusLabel.innerHTML = "❌ <strong>Permission Exception:</strong> Microphone access blocked by browser settings.";
+        statusLabel.innerHTML = "❌ <strong>Permission Exception:</strong> Microphone access blocked by browser settings. Clear site settings and refresh.";
       }
     }
 
@@ -204,16 +217,24 @@
 
       statusLabel.innerText = "Transmitting results safely to your inbox...";
       
-      // ⚠️ POST TARGET CONFIGURATION: Paste your exact /exec URL inside the quote marks below!
-      var webAppUrl = "https://script.google.com/macros/s/AKfycbyRny9yGQ9F6uB0ih1s27BRMrvFM9NqA1qCxi-d4hewTDB3qzr4S4OPbwB0HK-s9wCB/execPASTE_YOUR_GOOGLE_EXEC_URL_HERE"; 
+      // ⚠️ POST TARGET CONFIGURATION: Paste your fresh Google web app /exec URL between the quotes below!
+      var webAppUrl = "PASTE_YOUR_NEW_GOOGLE_EXEC_URL_HERE"; 
 
-      fetch(webAppUrl, { method: "POST", body: JSON.stringify(payload) })
+      fetch(webAppUrl, { 
+        method: "POST", 
+        mode: "cors", 
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        }
+      })
       .then(res => res.json())
       .then(res => {
         statusLabel.innerHTML = res.success ? "🎉 " + res.message : "❌ " + res.message;
         document.getElementById("startBtn").disabled = false;
       })
       .catch(err => {
+        console.error("Fetch Exception:", err);
         statusLabel.innerHTML = "❌ Connection failed to backend profile engine.";
         document.getElementById("startBtn").disabled = false;
       });
