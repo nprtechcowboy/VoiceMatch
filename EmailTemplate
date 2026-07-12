@@ -1,1 +1,54 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f4eb; color: #5a4225; margin: 0; padding: 20px; }
+    .card { max-width: 600px; background-color: #ffffff; margin: 0 auto; border: 1px solid #ebdcb9; border-radius: 8px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    h2 { color: #aa00ff; text-transform: uppercase; font-family: sans-serif; margin-top: 0; }
+    .metric-box { background-color: #fffcf7; border-left: 4px solid #00a9c7; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .track-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f6ebd2; }
+    .track-details { margin-left: 15px; }
+    .track-title { font-weight: bold; color: #3d2b19; }
+    .track-artist { font-size: 13px; color: #70583b; }
+    .badge { background-color: #ff007f; color: white; font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Your Voice Match Results Are In!</h2>
+    <p>Hey <strong><?= participantName ?></strong>,</p>
+    <p>Thanks for singing your heart out with the Tech Cowboy Matcher! We've analyzed your audio metrics and dynamic vocal balance to map your perfect karaoke lineup.</p>
+    
+    <div class="metric-box">
+      <strong>Vocal Profile Insights:</strong><br>
+      Average Pitch: <?= averagePitch ?> Hz<br>
+      <em><?= vocalFeedback ?></em>
+    </div>
+
+    <h3>🎯 Your Top Solo Match Lineup</h3>
+    <? for (var i = 0; i < soloTracks.length; i++) { ?>
+      <div class="track-item">
+        <img src="<?= soloTracks[i].cover ?>" width="45" height="45" style="border-radius:4px;" alt="cover">
+        <div class="track-details">
+          <div class="track-title"><?= soloTracks[i].title ?></div>
+          <div class="track-artist"><?= soloTracks[i].artist ?></div>
+        </div>
+      </div>
+    <? } ?>
+
+    <h3>🎤 Your Recommended Duet Matches</h3>
+    <? for (var i = 0; i < duetTracks.length; i++) { ?>
+      <div class="track-item">
+        <img src="<?= duetTracks[i].cover ?>" width="45" height="45" style="border-radius:4px;" alt="cover">
+        <div class="track-details">
+          <div class="track-title"><?= duetTracks[i].title ?> <span class="badge">Duet</span></div>
+          <div class="track-artist"><?= duetTracks[i].artist ?> (Best fit: <em><?= duetTracks[i].matchedSinger ?></em>)</div>
+        </div>
+      </div>
+    <? } ?>
+    
+    <p style="margin-top:25px; font-size:13px; color:#a1886a; text-align:center;">Built securely by Tech Cowboy Romance</p>
+  </div>
+</body>
+</html>
