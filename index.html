@@ -76,6 +76,7 @@
 
       fetch(webAppUrl, {
         method: "POST",
+        mode: "no-cors", // Bypasses the browser CORS restriction check
         body: JSON.stringify({ action: "registerParticipant", data: { stageName: name, email: email, genre: genre, contestOptIn: optIn } })
       })
       .then(res => res.json())
