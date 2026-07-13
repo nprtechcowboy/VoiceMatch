@@ -1,54 +1,83 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f4eb; color: #5a4225; margin: 0; padding: 20px; }
-    .card { max-width: 600px; background-color: #ffffff; margin: 0 auto; border: 1px solid #ebdcb9; border-radius: 8px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-    h2 { color: #aa00ff; text-transform: uppercase; font-family: sans-serif; margin-top: 0; }
-    .metric-box { background-color: #fffcf7; border-left: 4px solid #00a9c7; padding: 15px; margin: 20px 0; border-radius: 4px; }
-    .track-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f6ebd2; }
-    .track-details { margin-left: 15px; }
-    .track-title { font-weight: bold; color: #3d2b19; }
-    .track-artist { font-size: 13px; color: #70583b; }
-    .badge { background-color: #ff007f; color: white; font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
-  </style>
+  <meta charset="utf-8">
 </head>
-<body>
-  <div class="card">
-    <h2>Your Voice Match Results Are In!</h2>
-    <p>Hey <strong><?= participantName ?></strong>,</p>
-    <p>Thanks for singing your heart out with the Tech Cowboy Matcher! We've analyzed your audio metrics and dynamic vocal balance to map your perfect karaoke lineup.</p>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f4eb; color: #5a4225; margin: 0; padding: 20px;">
+  <div class="card" style="max-width: 600px; background-color: #ffffff; margin: 0 auto; border: 1px solid #ebdcb9; border-radius: 8px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
     
-    <div class="metric-box">
-      <strong>Vocal Profile Insights:</strong><br>
-      Average Pitch: <?= averagePitch ?> Hz<br>
-      <em><?= vocalFeedback ?></em>
+    <h1 style="text-align: center; font-family: Impact, sans-serif; font-size: 32px; color: #aa00ff; letter-spacing: 1px; margin: 0 0 5px 0;">SING YOUR HEART OUT!</h1>
+    <h2 style="text-align: center; font-size: 14px; font-weight: bold; text-transform: uppercase; color: #ff007f; margin: 0 0 25px 0; letter-spacing: 0.5px;">Official Performer Metrics</h2>
+    
+    <p>Hey <strong><?= participantName ?></strong>,</p>
+    <p>Incredible job on stage tonight! Our digital spectrum scanner monitored your performance intervals in real-time. Here is your personalized voice match analytics matrix and performance audit:</p>
+    
+    <!-- Metrics Score Box -->
+    <div class="metric-box" style="background-color: #fffcf7; border-left: 4px solid #00a9c7; padding: 15px; margin: 20px 0; border-radius: 4px;">
+      <strong style="color: #3d2b19; font-size: 16px;">🎤 Performance Scorecard:</strong><br><br>
+      <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 4px 0;"><strong>Tournament Accuracy Score:</strong></td>
+          <td style="text-align: right; color: #ff007f; font-weight: bold; font-size: 16px;"><?= score ?> / 100</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;"><strong>Overall Pitch Baseline:</strong></td>
+          <td style="text-align: right;"><?= averagePitch ?> Hz</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;"><strong>Interval 1 (30s delay):</strong></td>
+          <td style="text-align: right; color: #70583b;"><?= pitch1 ?> Hz</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;"><strong>Interval 2 (45s delay):</strong></td>
+          <td style="text-align: right; color: #70583b;"><?= pitch2 ?> Hz</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;"><strong>Interval 3 (30s delay):</strong></td>
+          <td style="text-align: right; color: #70583b;"><?= pitch3 ?> Hz</td>
+        </tr>
+      </table>
     </div>
 
-    <h3>🎯 Your Top Solo Match Lineup</h3>
+    <!-- Personalized Vocal Coaching Window -->
+    <div style="background-color: #fcf8f2; border: 1px solid #ebdcb9; border-radius: 6px; padding: 18px; margin: 20px 0;">
+      <h3 style="margin-top: 0; color: #aa00ff; font-family: sans-serif; font-size: 16px;">📈 Customized Vocal Coaching Report</h3>
+      <p style="font-size: 14px; line-height: 1.5; margin-bottom: 10px;"><strong>Vocal Timbre Analysis:</strong> <?= vocalFeedback ?></p>
+      <p style="font-size: 14px; line-height: 1.5; margin-bottom: 0; color: #3d2b19; background: #ffffff; padding: 10px; border-radius: 4px; border-left: 3px solid #aa00ff;">
+        <strong>Performance Optimization Tip:</strong> <?= coachingTips ?>
+      </p>
+    </div>
+
+    <!-- Automated Track Matches -->
+    <h3 style="color: #3d2b19; font-family: sans-serif; border-bottom: 1px solid #ebdcb9; padding-bottom: 5px; margin-top: 25px;">🎯 Hand-Picked Songs For Your Vocal Spectrum</h3>
+    
     <? for (var i = 0; i < soloTracks.length; i++) { ?>
-      <div class="track-item">
-        <img src="<?= soloTracks[i].cover ?>" width="45" height="45" style="border-radius:4px;" alt="cover">
-        <div class="track-details">
-          <div class="track-title"><?= soloTracks[i].title ?></div>
-          <div class="track-artist"><?= soloTracks[i].artist ?></div>
+      <div class="track-item" style="display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f6ebd2;">
+        <img src="<?= soloTracks[i].cover ?>" width="45" height="45" style="border-radius: 4px; display: block;" alt="cover">
+        <div class="track-details" style="margin-left: 15px;">
+          <div class="track-title" style="font-weight: bold; color: #3d2b19;"><?= soloTracks[i].title ?></div>
+          <div class="track-artist" style="font-size: 13px; color: #70583b;"><?= soloTracks[i].artist ?></div>
         </div>
       </div>
     <? } ?>
 
-    <h3>🎤 Your Recommended Duet Matches</h3>
     <? for (var i = 0; i < duetTracks.length; i++) { ?>
-      <div class="track-item">
-        <img src="<?= duetTracks[i].cover ?>" width="45" height="45" style="border-radius:4px;" alt="cover">
-        <div class="track-details">
-          <div class="track-title"><?= duetTracks[i].title ?> <span class="badge">Duet</span></div>
-          <div class="track-artist"><?= duetTracks[i].artist ?> (Best fit: <em><?= duetTracks[i].matchedSinger ?></em>)</div>
+      <div class="track-item" style="display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f6ebd2;">
+        <img src="<?= duetTracks[i].cover ?>" width="45" height="45" style="border-radius: 4px; display: block;" alt="cover">
+        <div class="track-details" style="margin-left: 15px;">
+          <div class="track-title" style="font-weight: bold; color: #3d2b19;">
+            <?= duetTracks[i].title ?> 
+            <span class="badge" style="background-color: #ff007f; color: white; font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: bold; margin-left: 5px;">Duet</span>
+          </div>
+          <div class="track-artist" style="font-size: 13px; color: #70583b;"><?= duetTracks[i].artist ?> (Best fit: <em><?= duetTracks[i].matchedSinger ?></em>)</div>
         </div>
       </div>
     <? } ?>
     
-    <p style="margin-top:25px; font-size:13px; color:#a1886a; text-align:center;">Built securely by Tech Cowboy Romance</p>
+    <p style="margin-top: 35px; font-size: 11px; color: #a1886a; text-align: center; border-top: 1px dashed #ebdcb9; padding-top: 15px; line-height: 1.4;">
+      Thank you for singing to support our fundraiser event! <br>
+      🔒 <em>In accordance with our database rules, your captured profile data will be permanently purged later tonight when the contest wraps up.</em>
+    </p>
   </div>
 </body>
 </html>
