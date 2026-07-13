@@ -64,10 +64,20 @@
     setInterval(loadDashboardMetrics, 5000);
     loadDashboardMetrics();
 
-    function loadDashboardMetrics() {
-      fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "getHostData" }) })
+function loadDashboardMetrics() {
+      fetch(webAppUrl, { 
+        method: "POST", 
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "action=getHostData" // Encoded cleanly as a form parameter
+      })
       .then(res => res.json())
-      .then(res => { if(res.payload) renderDashboard(res.payload); });
+      .then(res => { 
+        if (res.payload) renderDashboard(res.payload); 
+        setTimeout(loadDashboardMetrics, 5000);
+      })
+      .catch(err => {
+        setTimeout(loadDashboardMetrics, 10000);
+      });
     }
 
     function renderDashboard(data) {
