@@ -57,12 +57,10 @@
   </footer>
 
   <script>
-    // ⚠️ PASTE YOUR GOOGLE SCRIPT /exec URL LINK HERE
     var webAppUrl = "https://script.google.com/macros/s/AKfycbz0BHpygp-CKnHliJWLEBRhePw8lqIDdYcWK9H1GMo_V_t6Lx3ZYCJMG1E0O1e2YGa7/exec"; 
 
     var activeParticipant = null, purgeConfirmationCount = 0, audioContext = null, analyser = null, micStream = null;
 
-    // Synchronize data every 5 seconds
     setInterval(loadDashboardMetrics, 5000);
     loadDashboardMetrics();
 
@@ -73,7 +71,6 @@
     }
 
     function renderDashboard(data) {
-      // 1. Render Left Container (Queue)
       var qWrapper = document.getElementById("queueWrapper");
       if (!data.queue || data.queue.length === 0) {
         qWrapper.innerHTML = "<p style='text-align:center;'>Queue clear. Awaiting registrations.</p>";
@@ -95,7 +92,6 @@
         qWrapper.innerHTML = qHtml;
       }
 
-      // 2. Render Right Container (Leaderboard)
       var lWrapper = document.getElementById("leaderboardWrapper");
       if (!data.leaderboard || data.leaderboard.length === 0) {
         lWrapper.innerHTML = "<p style='text-align:center;'>No performance records tracked yet.</p>";
@@ -122,7 +118,6 @@
     async function executeAudioPipeline() {
       var pitches = [];
       try {
-        // Microphone works perfectly because this page runs natively on secure GitHub!
         micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
@@ -171,7 +166,7 @@
     function sendMetricsToBackend(pitches) {
       fetch(webAppUrl, {
         method: "POST",
-        mode: "no-cors", // Bypasses the browser CORS restriction check
+        mode: "no-cors",
         body: JSON.stringify({
           action: "streamPerformanceMetrics",
           data: { email: activeParticipant.email, stageName: activeParticipant.stageName, pitches: pitches, spectrum: [65,70,60,55] }
@@ -188,7 +183,7 @@
 
     function finalizeContestEvent() {
       if(!confirm("Lock contest and dispatch emails?")) return;
-      fetch(webAppUrl, { method: "POST",mode: "no-cors", body: JSON.stringify({ action: "triggerContestClosure" }) })
+      fetch(webAppUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ action: "triggerContestClosure" }) })
       .then(() => alert("Tournament closed. Global email sequences completed!"));
     }
 
@@ -197,7 +192,7 @@
       if (purgeConfirmationCount === 1) {
         alert("⚠️ WARNING: Click 'Purge' a second time to permanently clear all registration history.");
       } else {
-        fetch(webAppUrl, { method: "POST",mode: "no-cors", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
+        fetch(webAppUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
         .then(() => { alert("Database purged clean."); purgeConfirmationCount = 0; loadDashboardMetrics(); });
       }
     }
