@@ -62,12 +62,12 @@
     // ⚠️ PASTE YOUR GOOGLE SCRIPT /exec URL LINK HERE ALSO
     var webAppUrl = "https://script.google.com/macros/s/AKfycbz0BHpygp-CKnHliJWLEBRhePw8lqIDdYcWK9H1GMo_V_t6Lx3ZYCJMG1E0O1e2YGa7/exec"; 
 
-    function submitSignupForm() {
+function submitSignupForm() {
       var name = document.getElementById("stageName").value.trim();
       var email = document.getElementById("userEmail").value.trim();
       var genre = document.getElementById("vocalGenre").value;
       var optIn = document.getElementById("contestOptIn").checked;
-      var status = document.getElementById("statusMessage");
+      var status = document.getElementById("signupStatus");
 
       if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         status.style.color = "red"; status.innerText = "Please complete all field constraints."; return;
@@ -76,14 +76,22 @@
 
       fetch(webAppUrl, {
         method: "POST",
-        mode: "no-cors", // Bypasses the browser CORS restriction check
+        mode: "no-cors", 
+        headers: {
+          "Content-Type": "text/plain"
+        },
         body: JSON.stringify({ action: "registerParticipant", data: { stageName: name, email: email, genre: genre, contestOptIn: optIn } })
       })
-      .then(res => res.json())
-      .then(res => {
+      .then(function() {
+        // By removing .json() parsing, we execute once the browser finishes firing the network packet
         status.style.color = "green";
         status.innerText = "🎉 Registration Success! Check your inbox for your confirmation email.";
-        document.getElementById("stageName").value = ""; document.getElementById("userEmail").value = "";
+        document.getElementById("stageName").value = ""; 
+        document.getElementById("userEmail").value = "";
+      })
+      .catch(function(err) {
+        status.style.color = "red";
+        status.innerText = "Transmission error encountered.";
       });
     }
   </script>
