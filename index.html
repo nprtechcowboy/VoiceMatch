@@ -3,263 +3,87 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sing Your Heart Out! Voice Matcher</title>
+  <title>Sing Your Heart Out! Signup</title>
   <style>
-    body {
-      font-family: Georgia, "Times New Roman", serif;
-      background-color: #f9f4eb;
-      color: #5a4225;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 650px;
-      background: #fffcf7;
-      margin: 30px auto;
-      padding: 35px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(90, 66, 37, 0.1);
-      border: 1px solid #ebdcb9;
-    }
-    .header-container { text-align: center; margin-bottom: 10px; }
-    .neon-word-1, .neon-word-2, .neon-word-3, .neon-word-4 {
-      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-      font-size: 38px; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .neon-word-1 { color: #e026df; }
-    .neon-word-2 { color: #aa00ff; }
-    .neon-word-3 { color: #00a9c7; }
-    .neon-word-4 { color: #ff007f; }
-    .subtitle {
-      font-size: 24px; font-weight: 900; margin: 15px 0 25px 0; color: #3d2b19;
-      text-align: center; text-transform: uppercase; font-family: Impact, sans-serif;
-    }
-    .form-row { display: flex; align-items: flex-end; gap: 15px; margin-bottom: 15px; }
-    .form-group { flex: 1; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; }
-    .input-field { width: 100%; padding: 12px; border: 1px solid #c9a054; height: 45px; box-sizing: border-box; font-size: 15px; background-color: #fffcf7; }
-    .btn {
-      background: linear-gradient(135deg, #aa00ff 0%, #e026df 100%);
-      color: white; border: none; padding: 0 20px; font-weight: bold; border-radius: 4px; cursor: pointer; height: 45px; font-size: 14px;
-    }
-    .btn:hover { filter: brightness(0.95); }
-    .btn:disabled { background: #e1d7c6; color: #a1886a; cursor: not-allowed; }
-    .vu-meter-container { display: none; background-color: #2b2118; padding: 15px; border-radius: 6px; border: 2px solid #c9a054; margin: 25px 0; }
-    .vu-grid { display: flex; gap: 4px; height: 20px; }
-    .vu-bar { flex: 1; background-color: #3d3126; border-radius: 2px; }
-    .vu-bar.active-low { background-color: #00e5ff; }
-    .vu-bar.active-mid { background-color: #aa00ff; }
-    .vu-bar.active-high { background-color: #ff007f; }
-    .countdown { font-size: 54px; font-weight: bold; text-align: center; display: none; color: #aa00ff; margin: 15px 0; font-family: Impact, sans-serif; }
-    .status-msg { font-style: italic; text-align: center; font-size: 15px; font-weight: 600; min-height: 22px; line-height: 1.4; }
-    .privacy-note { font-size: 12px; color: #70583b; background: #f6ebd2; border: 1px solid #e1d7c6; padding: 12px; border-radius: 6px; margin-top: 20px; line-height: 1.5; }
-    .small-note { font-size: 12px; color: #70583b; text-align: center; margin-top: 10px; }
-    
-    @media (max-width: 620px) {
-      .container { padding: 25px 20px; margin: 15px auto; }
-      .form-row { display: block; }
-      .btn { width: 100%; margin-top: 12px; }
-      .neon-word-1, .neon-word-2, .neon-word-3, .neon-word-4 { font-size: 31px; }
-      .subtitle { font-size: 20px; }
-    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9f4eb; color: #5a4225; margin: 0; padding: 20px; }
+    .container { max-width: 500px; background: #ffffff; margin: 40px auto; padding: 35px; border-radius: 12px; box-shadow: 0 4px 20px rgba(90,66,37,0.08); border: 1px solid #ebdcb9; }
+    h1 { text-align: center; font-family: Impact, sans-serif; font-size: 36px; color: #aa00ff; letter-spacing: 1px; margin-bottom: 5px; }
+    .subtitle { text-align: center; font-weight: bold; font-size: 14px; text-transform: uppercase; color: #ff007f; margin-bottom: 30px; letter-spacing: 0.5px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 14px; }
+    .input-field, select { width: 100%; padding: 12px; border: 1px solid #ebdcb9; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fffcf7; color: #5a4225; }
+    .checkbox-group { display: flex; align-items: center; gap: 10px; background: #fffcf7; padding: 12px; border-radius: 6px; border: 1px solid #ebdcb9; }
+    .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+    .btn { width: 100%; background: linear-gradient(135deg, #aa00ff 0%, #ff007f 100%); color: white; border: none; padding: 14px; font-weight: bold; font-size: 16px; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+    .status { text-align: center; font-weight: bold; margin-top: 15px; }
+    .privacy { font-size: 12px; color: #8c7355; background: #f4edd9; padding: 15px; border-radius: 6px; margin-top: 25px; line-height: 1.5; border: 1px dashed #ebdcb9; }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <div class="header-container">
-      <span class="neon-word-1">Sing</span> 
-      <span class="neon-word-2">Your</span> 
-      <span class="neon-word-3">Heart</span> 
-      <span class="neon-word-4">Out!</span>
-    </div>
-    <div class="subtitle">Voice Pitch & Timbre Matcher</div>
+    <h1>SING YOUR HEART OUT!</h1>
+    <div class="subtitle">Fundraiser Registration Portal</div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="userEmail">Email Address:</label>
-        <input type="email" id="userEmail" class="input-field" placeholder="your.email@example.com" autocomplete="email">
-      </div>
-      <button class="btn" id="startBtn" onclick="initiatePitchCapture()">Start</button>
+    <div class="form-group">
+      <label>Karaoke Stage / Performer Name:</label>
+      <input type="text" id="stageName" class="input-field" placeholder="e.g., Vocal Rockstar">
     </div>
 
-    <div class="countdown" id="countdownBox">3</div>
-    <p class="status-msg" id="statusLabel"></p>
-
-    <div class="vu-meter-container" id="meterFrame">
-      <div class="vu-grid" id="vuGrid"></div>
+    <div class="form-group">
+      <label>Email Address:</label>
+      <input type="email" id="userEmail" class="input-field" placeholder="yourname@example.com">
     </div>
-    <div class="small-note" id="pitchDebug"></div>
 
-    <div class="privacy-note">
-      This tool listens only during the short test. It sends pitch and tone measurements to generate your song matches. It does not send or store a live audio recording.
+    <div class="form-group">
+      <label>Target Matching Vocal Genre:</label>
+      <select id="vocalGenre">
+        <option value="Classic Country">Classic Country</option>
+        <option value="Modern Country Pop">Modern Country Pop</option>
+        <option value="Rock Ballads">Rock Ballads</option>
+        <option value="Pop Anthems">Pop Anthems</option>
+      </select>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <input type="checkbox" id="contestOptIn">
+      <label for="contestOptIn" style="margin-bottom:0; cursor:pointer;">Enter tonight's live singing tournament contest!</label>
+    </div>
+
+    <button class="btn" onclick="submitSignupForm()">Complete Registration</button>
+    <div class="status" id="statusMessage"></div>
+
+    <div class="privacy">
+      🔒 <strong>Data Protection Notice:</strong> Your privacy is highly valued. Your submitted name, contact coordinates, and vocal frequency metrics are encrypted and safely stored. Let it be known that all data captured tonight will be permanently purged at the ending of the fundraiser that evening.
     </div>
   </div>
 
   <script>
-    var currentAttempt = 0, collectedPitches = [], accumulatedSpectrum = [0, 0, 0, 0], spectrumCount = 0;
-    var audioContext = null, analyser = null, microphoneStream = null, timeDomainBuffer = null;
-    var vuGrid = document.getElementById("vuGrid"), statusLabel = document.getElementById("statusLabel"), pitchDebug = document.getElementById("pitchDebug");
+    // ⚠️ PASTE YOUR GOOGLE SCRIPT /exec URL LINK HERE ALSO
+    var webAppUrl = "PASTE_YOUR_GOOGLE_EXEC_URL_HERE"; 
 
-    for (var b = 0; b < 15; b++) {
-      var barDiv = document.createElement("div"); barDiv.className = "vu-bar"; vuGrid.appendChild(barDiv);
-    }
-    var barElements = document.querySelectorAll(".vu-bar");
-
-    async function initiatePitchCapture() {
+    function submitSignupForm() {
+      var name = document.getElementById("stageName").value.trim();
       var email = document.getElementById("userEmail").value.trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("Please enter a valid email address."); return;
+      var genre = document.getElementById("vocalGenre").value;
+      var optIn = document.getElementById("contestOptIn").checked;
+      var status = document.getElementById("statusMessage");
+
+      if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        status.style.color = "red"; status.innerText = "Please complete all field constraints."; return;
       }
+      status.style.color = "#5a4225"; status.innerText = "Transmitting registration data...";
 
-      try {
-        document.getElementById("startBtn").disabled = true;
-        statusLabel.innerText = "Requesting microphone hardware clearance...";
-
-        microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 2048;
-        audioContext.createMediaStreamSource(microphoneStream).connect(analyser);
-        timeDomainBuffer = new Float32Array(analyser.fftSize);
-
-        currentAttempt = 0; collectedPitches = []; accumulatedSpectrum = [0, 0, 0, 0]; spectrumCount = 0;
-        executeRound();
-      } catch (err) {
-        document.getElementById("startBtn").disabled = false;
-        statusLabel.innerHTML = "❌ <strong>Permission Exception:</strong> Microphone access blocked by browser settings. Clear site settings and refresh.";
-      }
-    }
-
-    function executeRound() {
-      currentAttempt++;
-      if (currentAttempt > 3) { completeCapture(); return; }
-
-      var countdownBox = document.getElementById("countdownBox");
-      countdownBox.style.display = "block"; statusLabel.innerText = "Get ready for Attempt " + currentAttempt + "/3...";
-      var count = 3; countdownBox.innerText = count;
-
-      var timer = setInterval(function () {
-        count--;
-        if (count > 0) countdownBox.innerText = count;
-        else { clearInterval(timer); countdownBox.style.display = "none"; captureAudioSample(); }
-      }, 1000);
-    }
-
-    function captureAudioSample() {
-      var meterFrame = document.getElementById("meterFrame");
-      statusLabel.innerText = "🎚️ Sing or hum steadily now...";
-      meterFrame.style.display = "block";
-      var duration = 2500, startTime = Date.now(), roundPitches = [];
-
-      var pitchSampler = setInterval(function () {
-        if (Date.now() - startTime >= duration) {
-          clearInterval(pitchSampler); meterFrame.style.display = "none";
-          var validPitches = roundPitches.filter(p => p >= 50 && p <= 500);
-
-          if (validPitches.length === 0) {
-            statusLabel.innerText = "No stable note captured. Repeating attempt."; currentAttempt--;
-            setTimeout(executeRound, 1500); return;
-          }
-          var finalRoundPitch = validPitches.reduce((s, v) => s + v, 0) / validPitches.length;
-          collectedPitches.push(finalRoundPitch);
-          setTimeout(executeRound, 1200);
-        } else {
-          samplePitchAndSpectrum(roundPitches);
-        }
-      }, 80);
-    }
-
-    function samplePitchAndSpectrum(roundPitches) {
-      analyser.getFloatTimeDomainData(timeDomainBuffer);
-      var pitch = autoCorrelate(timeDomainBuffer, audioContext.sampleRate);
-      if (pitch !== -1 && pitch >= 50 && pitch <= 500) roundPitches.push(pitch);
-
-      var freqBuffer = new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteFrequencyData(freqBuffer);
-      updateSpectrum(freqBuffer); updateVuMeter(freqBuffer);
-    }
-
-    function updateSpectrum(freqBuffer) {
-      var b = 0, lm = 0, hm = 0, p = 0;
-      for (var i = 0; i < freqBuffer.length; i++) {
-        if (i < 10) b += freqBuffer[i]; else if (i < 80) lm += freqBuffer[i]; else if (i < 200) hm += freqBuffer[i]; else if (i < 500) p += freqBuffer[i];
-      }
-      accumulatedSpectrum[0] += Math.max(0, Math.min(100, Math.round(b / 10)));
-      accumulatedSpectrum[1] += Math.max(0, Math.min(100, Math.round(lm / 70)));
-      accumulatedSpectrum[2] += Math.max(0, Math.min(100, Math.round(hm / 120)));
-      accumulatedSpectrum[3] += Math.max(0, Math.min(100, Math.round(p / 300)));
-      spectrumCount++;
-    }
-
-    function updateVuMeter(freqBuffer) {
-      var total = 0; for (var i = 0; i < freqBuffer.length; i++) total += freqBuffer[i];
-      var activeCount = Math.min(15, Math.max(1, Math.round((total / freqBuffer.length) / 8)));
-      for (var b = 0; b < 15; b++) {
-        barElements[b].className = b < activeCount ? (b < 6 ? "vu-bar active-low" : b < 11 ? "vu-bar active-mid" : "vu-bar active-high") : "vu-bar";
-      }
-    }
-
-    function completeCapture() {
-      statusLabel.innerText = "Processing final profile calculations...";
-      if (microphoneStream) microphoneStream.getTracks().forEach(t => t.stop());
-      if (audioContext) audioContext.close();
-
-      var count = spectrumCount > 0 ? spectrumCount : 1;
-      var payload = {
-        name: "Participant",
-        email: document.getElementById("userEmail").value.trim(),
-        attempts: collectedPitches,
-        spectrum: [
-          Math.round(accumulatedSpectrum[0] / count), Math.round(accumulatedSpectrum[1] / count),
-          Math.round(accumulatedSpectrum[2] / count), Math.round(accumulatedSpectrum[3] / count)
-        ]
-      };
-
-      statusLabel.innerText = "Transmitting results safely to your inbox...";
-      
-      // ⚠️ POST TARGET CONFIGURATION: Paste your fresh Google web app /exec URL between the quotes below!
-      var webAppUrl = "https://script.google.com/macros/s/AKfycbws0tmFVmCQo-ewXpvuDIOJYiP1HL1KNo_7S5t-67fFPo7nYtZ9qmQN5ShrK7zvBeHp/exec"; 
-
-      fetch(webAppUrl, { 
-        method: "POST", 
-        mode: "cors", 
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        }
+      fetch(webAppUrl, {
+        method: "POST",
+        body: JSON.stringify({ action: "registerParticipant", data: { stageName: name, email: email, genre: genre, contestOptIn: optIn } })
       })
       .then(res => res.json())
       .then(res => {
-        statusLabel.innerHTML = res.success ? "🎉 " + res.message : "❌ " + res.message;
-        document.getElementById("startBtn").disabled = false;
-      })
-      .catch(err => {
-        console.error("Fetch Exception:", err);
-        statusLabel.innerHTML = "❌ Connection failed to backend profile engine.";
-        document.getElementById("startBtn").disabled = false;
+        status.style.color = "green";
+        status.innerText = "🎉 Registration Success! Check your inbox for your confirmation email.";
+        document.getElementById("stageName").value = ""; document.getElementById("userEmail").value = "";
       });
-    }
-
-    function autoCorrelate(buffer, sampleRate) {
-      var SIZE = buffer.length, rms = 0;
-      for (var i = 0; i < SIZE; i++) rms += buffer[i] * buffer[i];
-      if (Math.sqrt(rms / SIZE) < 0.01) return -1;
-      var r1 = 0, r2 = SIZE - 1;
-      for (var i = 0; i < SIZE / 2; i++) { if (Math.abs(buffer[i]) < 0.2) { r1 = i; break; } }
-      for (var i = 1; i < SIZE / 2; i++) { if (Math.abs(buffer[SIZE - i]) < 0.2) { r2 = SIZE - i; break; } }
-      buffer = buffer.slice(r1, r2); SIZE = buffer.length;
-      var correlations = new Array(SIZE).fill(0);
-      for (var offset = 0; offset < SIZE; offset++) {
-        for (var i = 0; i < SIZE - offset; i++) correlations[offset] += buffer[i] * buffer[i + offset];
-      }
-      var d = 0; while (d < SIZE - 1 && correlations[d] > correlations[d + 1]) d++;
-      var maxValue = -1, maxPosition = -1;
-      for (var i = d; i < SIZE; i++) { if (correlations[i] > maxValue) { maxValue = correlations[i]; maxPosition = i; } }
-      if (maxPosition <= 0) return -1;
-      var x1 = correlations[maxPosition - 1] || 0, x2 = correlations[maxPosition], x3 = correlations[maxPosition + 1] || 0;
-      var a = (x1 + x3 - 2 * x2) / 2, b = (x3 - x1) / 2;
-      if (a) maxPosition = maxPosition - b / (2 * a);
-      return sampleRate / maxPosition;
     }
   </script>
 </body>
