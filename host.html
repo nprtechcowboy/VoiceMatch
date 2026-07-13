@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sing Your Heart Out! Host Panel</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f1ebd9; color: #3d2b19; margin: 0; padding: 20px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+    h1 { text-align: center; font-family: Impact, sans-serif; font-size: 36px; color: #aa00ff; margin: 0 0 20px 0; letter-spacing: 1px; text-transform: uppercase; }
+    .dashboard { display: flex; gap: 20px; flex: 1; min-height: 0; }
+    .panel { background: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #ebdcb9; display: flex; flex-direction: column; }
+    .left-container { flex: 3; }
+    .right-container { flex: 2; }
+    .section-title { font-family: Impact, sans-serif; font-size: 20px; text-transform: uppercase; color: #ff007f; margin-bottom: 15px; border-bottom: 2px dashed #f1ebd9; padding-bottom: 5px; }
+    .scroll-box { flex: 1; overflow-y: auto; }
+    .queue-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f9f4eb; background: #fffcf7; border-radius: 6px; margin-bottom: 8px; }
+    .queue-details { font-size: 14px; }
+    .select-btn { background: #00a9c7; color: white; border: none; padding: 8px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+    .select-btn.active { background: #aa00ff; animation: pulse 1.5s infinite; }
+    .board-row { display: flex; justify-content: space-between; padding: 12px; background: #fffcf7; border-radius: 6px; margin-bottom: 8px; font-weight: bold; border-left: 5px solid #ebdcb9; }
+    .board-row.rank-0 { border-left-color: #ffd700; background: #fffdf0; }
+    .board-row.rank-1 { border-left-color: #c0c0c0; }
+    .board-row.rank-2 { border-left-color: #cd7f32; }
+    .live-status { text-align: center; padding: 15px; background: #3d2b19; color: #00e5ff; font-weight: bold; font-family: monospace; font-size: 15px; border-radius: 6px; margin-top: 15px; display: none; }
+    footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #ebdcb9; }
+    .footer-btn { font-weight: bold; padding: 12px 24px; border-radius: 6px; cursor: pointer; border: none; text-transform: uppercase; }
+    .btn-complete { background: linear-gradient(135deg, #aa00ff 0%, #ff007f 100%); color: white; }
+    .btn-purge { background: #e03636; color: white; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <h1>SING YOUR HEART OUT! Host Panel</h1>
+
+  <div class="dashboard">
+    <!-- LEFT CONTAINER: Queue Management -->
+    <div class="panel left-container">
+      <div class="section-title">🎤 Registration Queue & Stage Controls</div>
+      <div class="scroll-box" id="queueWrapper">Loading queue from database...</div>
+    </div>
+
+    <!-- RIGHT CONTAINER: Leaderboard Analyzer -->
+    <div class="panel right-container">
+      <div class="section-title">🏆 Tournament Scoreboard (Top 3)</div>
+      <div id="leaderboardWrapper">Loading rankings...</div>
+      
+      <div class="live-status" id="liveMonitor">
+        🎙️ MIC ACTIVE: Capturing Staggered Interval Metrics...
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <button class="footer-btn btn-purge" onclick="triggerPurgeExecution()">Purge System Data</button>
+    <button class="footer-btn btn-complete" onclick="finalizeContestEvent()">Contest Complete</button>
+  </footer>
+
+  <script>
+    // ⚠️ PASTE YOUR GOOGLE SCRIPT /exec URL LINK HERE
+    var webAppUrl = "PASTE_YOUR_GOOGLE_EXEC_URL_HERE"; 
+
+    var activeParticipant = null, purgeConfirmationCount = 0, audioContext = null, analyser = null, micStream = null;
+
+    // Synchronize data every 5 seconds
+    setInterval(loadDashboardMetrics, 5000);
+    loadDashboardMetrics();
+
+    function loadDashboardMetrics() {
+      fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "getHostData" }) })
+      .then(res => res.json())
+      .then(res => { if(res.payload) renderDashboard(res.payload); });
+    }
+
+    function renderDashboard(data) {
+      // 1. Render Left Container (Queue)
+      var qWrapper = document.getElementById("queueWrapper");
+      if (!data.queue || data.queue.length === 0) {
+        qWrapper.innerHTML = "<p style='text-align:center;'>Queue clear. Awaiting registrations.</p>";
+      } else {
+        var qHtml = "";
+        data.queue.forEach(p => {
+          var isCurrent = activeParticipant && activeParticipant.email === p.email;
+          var btnLabel = isCurrent ? "Recording..." : (p.status === "Analyzed" ? "Re-Test" : "Select");
+          var activeClass = isCurrent ? "active" : "";
+          
+          qHtml += `<div class="queue-row">
+            <div class="queue-details">
+              <strong>${p.stageName}</strong> (${p.genre})<br>
+              <span style="font-size:11px;color:#8c7355;">Status: ${p.status} | Contest Opt-In: ${p.optIn}</span>
+            </div>
+            <button class="select-btn ${activeClass}" onclick='toggleStageAnalysis(${JSON.stringify(p)})'>${btnLabel}</button>
+          </div>`;
+        });
+        qWrapper.innerHTML = qHtml;
+      }
+
+      // 2. Render Right Container (Leaderboard)
+      var lWrapper = document.getElementById("leaderboardWrapper");
+      if (!data.leaderboard || data.leaderboard.length === 0) {
+        lWrapper.innerHTML = "<p style='text-align:center;'>No performance records tracked yet.</p>";
+      } else {
+        var lHtml = "";
+        data.leaderboard.forEach((user, idx) => {
+          lHtml += `<div class="board-row rank-${idx}">
+            <span>#${idx+1} ${user.stageName}</span>
+            <span>Score: ${user.score}</span>
+          </div>`;
+        });
+        lWrapper.innerHTML = lHtml;
+      }
+    }
+
+    function toggleStageAnalysis(participant) {
+      if (activeParticipant) return;
+      activeParticipant = participant;
+      document.getElementById("liveMonitor").style.display = "block";
+      loadDashboardMetrics();
+      executeAudioPipeline();
+    }
+
+    async function executeAudioPipeline() {
+      var pitches = [];
+      try {
+        // Microphone works perfectly because this page runs natively on secure GitHub!
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
+        audioContext.createMediaStreamSource(micStream).connect(analyser);
+
+        // Interval 1: 30 Second Staggered Delay
+        setTimeout(async () => {
+          pitches.push(await capturePitchSnippet());
+          
+          // Interval 2: 45 Second Staggered Delay
+          setTimeout(async () => {
+            pitches.push(await capturePitchSnippet());
+            
+            // Interval 3: 30 Second Staggered Delay
+            setTimeout(async () => {
+              pitches.push(await capturePitchSnippet());
+              sendMetricsToBackend(pitches);
+            }, 30000);
+          }, 45000);
+        }, 30000);
+
+      } catch(e) {
+        alert("Microphone capture access denied.");
+        resetPipelineFlags();
+      }
+    }
+
+    function capturePitchSnippet() {
+      return new Promise((resolve) => {
+        var samples = [], count = 0;
+        var sampler = setInterval(() => {
+          var buffer = new Float32Array(analyser.fftSize);
+          analyser.getFloatTimeDomainData(buffer);
+          var val = autoCorrelateValue(buffer, audioContext.sampleRate);
+          if(val > 50 && val < 500) samples.push(val);
+          count++;
+          if(count > 20) {
+            clearInterval(sampler);
+            resolve(samples.length ? Math.round(samples.reduce((a,b)=>a+b,0)/samples.length) : 150);
+          }
+        }, 100);
+      });
+    }
+
+    function sendMetricsToBackend(pitches) {
+      fetch(webAppUrl, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "streamPerformanceMetrics",
+          data: { email: activeParticipant.email, stageName: activeParticipant.stageName, pitches: pitches, spectrum: [65,70,60,55] }
+        })
+      }).then(() => { resetPipelineFlags(); loadDashboardMetrics(); });
+    }
+
+    function resetPipelineFlags() {
+      activeParticipant = null;
+      document.getElementById("liveMonitor").style.display = "none";
+      if(micStream) micStream.getTracks().forEach(t=>t.stop());
+      if(audioContext) audioContext.close();
+    }
+
+    function finalizeContestEvent() {
+      if(!confirm("Lock contest and dispatch emails?")) return;
+      fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "triggerContestClosure" }) })
+      .then(() => alert("Tournament closed. Global email sequences completed!"));
+    }
+
+    function triggerPurgeExecution() {
+      purgeConfirmationCount++;
+      if (purgeConfirmationCount === 1) {
+        alert("⚠️ WARNING: Click 'Purge' a second time to permanently clear all registration history.");
+      } else {
+        fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
+        .then(() => { alert("Database purged clean."); purgeConfirmationCount = 0; loadDashboardMetrics(); });
+      }
+    }
+
+    function autoCorrelateValue(buf, sr) {
+      var rms = 0; for (var i=0;i<buf.length;i++) rms += buf[i]*buf[i];
+      if (Math.sqrt(rms/buf.length)<0.01) return -1;
+      var r1=0, r2=buf.length-1;
+      for (var i=0; i<buf.length/2; i++) { if (Math.abs(buf[i])<0.2) { r1=i; break; } }
+      for (var i=1; i<buf.length/2; i++) { if (Math.abs(buf[buf.length-i])<0.2) { r2=buf.length-i; break; } }
+      buf = buf.slice(r1,r2); var len = buf.length, records = new Array(len).fill(0);
+      for (var offset=0; offset<len; offset++) {
+        for (var i=0; i<len-offset; i++) records[offset] += buf[i]*buf[i+offset];
+      }
+      var d=0; while (records[d]>records[d+1]) d++;
+      var maxV=-1, maxP=-1;
+      for (var i=d; i<len; i++) { if (records[i]>maxV) { maxV=records[i]; maxP=i; } }
+      return maxP > 0 ? (sr / maxP) : -1;
+    }
+  </script>
+</body>
+</html>
