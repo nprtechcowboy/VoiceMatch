@@ -34,13 +34,11 @@
   <h1>SING YOUR HEART OUT! Host Panel</h1>
 
   <div class="dashboard">
-    <!-- LEFT CONTAINER: Queue Management -->
     <div class="panel left-container">
       <div class="section-title">🎤 Registration Queue & Stage Controls</div>
       <div class="scroll-box" id="queueWrapper">Loading queue from database...</div>
     </div>
 
-    <!-- RIGHT CONTAINER: Leaderboard Analyzer -->
     <div class="panel right-container">
       <div class="section-title">🏆 Tournament Scoreboard (Top 3)</div>
       <div id="leaderboardWrapper">Loading rankings...</div>
@@ -57,25 +55,30 @@
   </footer>
 
   <script>
+    // Ensure this link exactly matches your latest deployment link from index.html!
     var webAppUrl = "https://script.google.com/macros/s/AKfycbyO73GV9-4VmreEdBPw2cSSIWrHm-armysqWbbOUSfnn6uk3ki99EpMNdnin9QvNKr2/exec"; 
 
     var activeParticipant = null, purgeConfirmationCount = 0, audioContext = null, analyser = null, micStream = null;
 
-    setInterval(loadDashboardMetrics, 5000);
+    // Kick off the self-scheduling update loop
     loadDashboardMetrics();
 
-function loadDashboardMetrics() {
+    function loadDashboardMetrics() {
+      // FIXED: Switched to form-urlencoded parameter format matching the backend update
       fetch(webAppUrl, { 
         method: "POST", 
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "action=getHostData" // Encoded cleanly as a form parameter
+        body: "action=getHostData"
       })
       .then(res => res.json())
       .then(res => { 
         if (res.payload) renderDashboard(res.payload); 
+        // Schedules the next loop 5 seconds after this fetch successfully completely resolves
         setTimeout(loadDashboardMetrics, 5000);
       })
       .catch(err => {
+        console.error("Dashboard synchronization error:", err);
+        // Retry after 10 seconds if network hiccups happen
         setTimeout(loadDashboardMetrics, 10000);
       });
     }
@@ -121,7 +124,6 @@ function loadDashboardMetrics() {
       if (activeParticipant) return;
       activeParticipant = participant;
       document.getElementById("liveMonitor").style.display = "block";
-      loadDashboardMetrics();
       executeAudioPipeline();
     }
 
@@ -174,14 +176,27 @@ function loadDashboardMetrics() {
     }
 
     function sendMetricsToBackend(pitches) {
+      // FIXED: Formatted audio transmissions as URLSearchParams
+      var metricsForm = new URLSearchParams();
+      metricsForm.append("action", "streamPerformanceMetrics");
+      metricsForm.append("email", activeParticipant.email);
+      metricsForm.append("stageName", activeParticipant.stageName);
+      metricsForm.append("pitch1", pitches[0] || 150);
+      metricsForm.append("pitch2", pitches[1] || 150);
+      metricsForm.append("pitch3", pitches[2] || 150);
+
       fetch(webAppUrl, {
         method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({
-          action: "streamPerformanceMetrics",
-          data: { email: activeParticipant.email, stageName: activeParticipant.stageName, pitches: pitches, spectrum: [65,70,60,55] }
-        })
-      }).then(() => { resetPipelineFlags(); loadDashboardMetrics(); });
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: metricsForm.toString()
+      })
+      .then(() => { 
+        resetPipelineFlags(); 
+      })
+      .catch(err => {
+        console.error("Audio streaming failure:", err);
+        resetPipelineFlags();
+      });
     }
 
     function resetPipelineFlags() {
@@ -193,7 +208,11 @@ function loadDashboardMetrics() {
 
     function finalizeContestEvent() {
       if(!confirm("Lock contest and dispatch emails?")) return;
-      fetch(webAppUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ action: "triggerContestClosure" }) })
+      fetch(webAppUrl, { 
+        method: "POST", 
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "action=triggerContestClosure" 
+      })
       .then(() => alert("Tournament closed. Global email sequences completed!"));
     }
 
@@ -202,8 +221,15 @@ function loadDashboardMetrics() {
       if (purgeConfirmationCount === 1) {
         alert("⚠️ WARNING: Click 'Purge' a second time to permanently clear all registration history.");
       } else {
-        fetch(webAppUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
-        .then(() => { alert("Database purged clean."); purgeConfirmationCount = 0; loadDashboardMetrics(); });
+        fetch(webAppUrl, { 
+          method: "POST", 
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "action=purgeSystemDatabase" 
+        })
+        .then(() => { 
+          alert("Database purged clean."); 
+          purgeConfirmationCount = 0; 
+        });
       }
     }
 
@@ -225,3 +251,4 @@ function loadDashboardMetrics() {
   </script>
 </body>
 </html>
+
