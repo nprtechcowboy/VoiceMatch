@@ -63,24 +63,29 @@
     // Kick off the self-scheduling update loop
     loadDashboardMetrics();
 
-    function loadDashboardMetrics() {
-      // FIXED: Switched to form-urlencoded parameter format matching the backend update
-      fetch(webAppUrl, { 
-        method: "POST", 
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "action=getHostData"
-      })
-      .then(res => res.json())
-      .then(res => { 
-        if (res.payload) renderDashboard(res.payload); 
-        // Schedules the next loop 5 seconds after this fetch successfully completely resolves
+function loadDashboardMetrics() {
+      // Create a globally visible window execution function loop for the inbound JSONP packet
+      window.handleGoogleJsonpResponse = function(res) {
+        if (res && res.payload) {
+          renderDashboard(res.payload);
+        }
+        // Clean up the temporary tracking tag from head memory space
+        document.getElementById("jsonpSyncScript").remove();
         setTimeout(loadDashboardMetrics, 5000);
-      })
-      .catch(err => {
-        console.error("Dashboard synchronization error:", err);
-        // Retry after 10 seconds if network hiccups happen
+      };
+
+      // Construct a dynamic script tag wrapper to bypass standard connect-src blockades
+      var scriptTag = document.createElement("script");
+      scriptTag.id = "jsonpSyncScript";
+      scriptTag.src = webAppUrl + "?action=getHostData&callback=handleGoogleJsonpResponse&_ts=" + new Date().getTime();
+      
+      // Fallback rescue loop if network drops out completely
+      scriptTag.onerror = function() {
+        if(document.getElementById("jsonpSyncScript")) document.getElementById("jsonpSyncScript").remove();
         setTimeout(loadDashboardMetrics, 10000);
-      });
+      };
+
+      document.head.appendChild(scriptTag);
     }
 
     function renderDashboard(data) {
