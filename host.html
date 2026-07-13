@@ -171,6 +171,7 @@
     function sendMetricsToBackend(pitches) {
       fetch(webAppUrl, {
         method: "POST",
+        mode: "no-cors", // Bypasses the browser CORS restriction check
         body: JSON.stringify({
           action: "streamPerformanceMetrics",
           data: { email: activeParticipant.email, stageName: activeParticipant.stageName, pitches: pitches, spectrum: [65,70,60,55] }
@@ -187,7 +188,7 @@
 
     function finalizeContestEvent() {
       if(!confirm("Lock contest and dispatch emails?")) return;
-      fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "triggerContestClosure" }) })
+      fetch(webAppUrl, { method: "POST",mode: "no-cors", body: JSON.stringify({ action: "triggerContestClosure" }) })
       .then(() => alert("Tournament closed. Global email sequences completed!"));
     }
 
@@ -196,7 +197,7 @@
       if (purgeConfirmationCount === 1) {
         alert("⚠️ WARNING: Click 'Purge' a second time to permanently clear all registration history.");
       } else {
-        fetch(webAppUrl, { method: "POST", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
+        fetch(webAppUrl, { method: "POST",mode: "no-cors", body: JSON.stringify({ action: "purgeSystemDatabase" }) })
         .then(() => { alert("Database purged clean."); purgeConfirmationCount = 0; loadDashboardMetrics(); });
       }
     }
