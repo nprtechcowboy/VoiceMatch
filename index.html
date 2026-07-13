@@ -59,15 +59,14 @@
   </div>
 
   <script>
-    // ⚠️ PASTE YOUR GOOGLE SCRIPT /exec URL LINK HERE ALSO
     var webAppUrl = "https://script.google.com/macros/s/AKfycbz0BHpygp-CKnHliJWLEBRhePw8lqIDdYcWK9H1GMo_V_t6Lx3ZYCJMG1E0O1e2YGa7/exec"; 
 
-function submitSignupForm() {
+    function submitSignupForm() {
       var name = document.getElementById("stageName").value.trim();
       var email = document.getElementById("userEmail").value.trim();
       var genre = document.getElementById("vocalGenre").value;
       var optIn = document.getElementById("contestOptIn").checked;
-      var status = document.getElementById("signupStatus");
+      var status = document.getElementById("statusMessage"); // FIXED: ID match fixed
 
       if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         status.style.color = "red"; status.innerText = "Please complete all field constraints."; return;
@@ -83,7 +82,6 @@ function submitSignupForm() {
         body: JSON.stringify({ action: "registerParticipant", data: { stageName: name, email: email, genre: genre, contestOptIn: optIn } })
       })
       .then(function() {
-        // By removing .json() parsing, we execute once the browser finishes firing the network packet
         status.style.color = "green";
         status.innerText = "🎉 Registration Success! Check your inbox for your confirmation email.";
         document.getElementById("stageName").value = ""; 
