@@ -211,30 +211,60 @@ function loadDashboardMetrics() {
       if(audioContext) audioContext.close();
     }
 
+var purgeConfirmationCount = 0;
+
     function finalizeContestEvent() {
       if(!confirm("Lock contest and dispatch emails?")) return;
-      fetch(webAppUrl, { 
-        method: "POST", 
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "action=triggerContestClosure" 
-      })
-      .then(() => alert("Tournament closed. Global email sequences completed!"));
+      
+      // Force clean up any old leftover script tag first
+      var oldScript = document.getElementById("jsonpClosureScript");
+      if(oldScript) oldScript.remove();
+
+      window.handleGoogleJsonpClosure = function(res) {
+        alert("Tournament closed. Global email sequences completed and data purged!");
+        var s = document.getElementById("jsonpClosureScript");
+        if(s) s.remove();
+      };
+
+      var scriptTag = document.createElement("script");
+      scriptTag.id = "jsonpClosureScript";
+      // This ensures it uses the exact variable name and bypasses browser caching
+      scriptTag.src = webAppUrl + "?action=triggerContestClosure&callback=handleGoogleJsonpClosure&_ts=" + new Date().getTime();
+      
+      scriptTag.onerror = function() {
+        alert("Network communication error trying to reach the server.");
+        if(document.getElementById("jsonpClosureScript")) document.getElementById("jsonpClosureScript").remove();
+      };
+
+      document.head.appendChild(scriptTag);
     }
 
     function triggerPurgeExecution() {
       purgeConfirmationCount++;
       if (purgeConfirmationCount === 1) {
-        alert("⚠️ WARNING: Click 'Purge' a second time to permanently clear all registration history.");
+        alert("⚠️ WARNING: Click 'Purge System Data' a second time to permanently clear all registration history.");
       } else {
-        fetch(webAppUrl, { 
-          method: "POST", 
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "action=purgeSystemDatabase" 
-        })
-        .then(() => { 
-          alert("Database purged clean."); 
-          purgeConfirmationCount = 0; 
-        });
+        var oldScript = document.getElementById("jsonpPurgeScript");
+        if(oldScript) oldScript.remove();
+
+        window.handleGoogleJsonpPurge = function(res) {
+          alert("Database rows successfully dropped from all tabs.");
+          var s = document.getElementById("jsonpPurgeScript");
+          if(s) s.remove();
+          purgeConfirmationCount = 0;
+        };
+
+        var scriptTag = document.createElement("script");
+        scriptTag.id = "jsonpPurgeScript";
+        scriptTag.src = webAppUrl + "?action=purgeSystemDatabase&callback=handleGoogleJsonpPurge&_ts=" + new Date().getTime();
+        
+        scriptTag.onerror = function() {
+          alert("Network communication error trying to reach the server.");
+          if(document.getElementById("jsonpPurgeScript")) document.getElementById("jsonpPurgeScript").remove();
+          purgeConfirmationCount = 0;
+        };
+
+        document.head.appendChild(scriptTag);
       }
     }
 
