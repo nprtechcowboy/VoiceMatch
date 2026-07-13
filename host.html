@@ -22,10 +22,9 @@
     .board-row.rank-1 { border-left-color: #c0c0c0; }
     .board-row.rank-2 { border-left-color: #cd7f32; }
     .live-status { text-align: center; padding: 15px; background: #3d2b19; color: #00e5ff; font-weight: bold; font-family: monospace; font-size: 15px; border-radius: 6px; margin-top: 15px; display: none; }
-    footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #ebdcb9; }
+    footer { display: flex; justify-content: flex-end; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #ebdcb9; }
     .footer-btn { font-weight: bold; padding: 12px 24px; border-radius: 6px; cursor: pointer; border: none; text-transform: uppercase; }
     .btn-complete { background: linear-gradient(135deg, #aa00ff 0%, #ff007f 100%); color: white; }
-    .btn-purge { background: #e03636; color: white; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
   </style>
 </head>
@@ -54,7 +53,6 @@
   </footer>
 
   <script>
-    // Ensure this link exactly matches your latest deployment link from index.html!
     var webAppUrl = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
 
     var activeParticipant = null, purgeConfirmationCount = 0, audioContext = null, analyser = null, micStream = null;
@@ -62,23 +60,19 @@
     // Kick off the self-scheduling update loop
     loadDashboardMetrics();
 
-function loadDashboardMetrics() {
-      // Create a globally visible window execution function loop for the inbound JSONP packet
+    function loadDashboardMetrics() {
       window.handleGoogleJsonpResponse = function(res) {
         if (res && res.payload) {
           renderDashboard(res.payload);
         }
-        // Clean up the temporary tracking tag from head memory space
         document.getElementById("jsonpSyncScript").remove();
         setTimeout(loadDashboardMetrics, 5000);
       };
 
-      // Construct a dynamic script tag wrapper to bypass standard connect-src blockades
       var scriptTag = document.createElement("script");
       scriptTag.id = "jsonpSyncScript";
       scriptTag.src = webAppUrl + "?action=getHostData&callback=handleGoogleJsonpResponse&_ts=" + new Date().getTime();
       
-      // Fallback rescue loop if network drops out completely
       scriptTag.onerror = function() {
         if(document.getElementById("jsonpSyncScript")) document.getElementById("jsonpSyncScript").remove();
         setTimeout(loadDashboardMetrics, 10000);
@@ -140,15 +134,10 @@ function loadDashboardMetrics() {
         analyser.fftSize = 2048;
         audioContext.createMediaStreamSource(micStream).connect(analyser);
 
-        // Interval 1: 30 Second Staggered Delay
         setTimeout(async () => {
           pitches.push(await capturePitchSnippet());
-          
-          // Interval 2: 45 Second Staggered Delay
           setTimeout(async () => {
             pitches.push(await capturePitchSnippet());
-            
-            // Interval 3: 30 Second Staggered Delay
             setTimeout(async () => {
               pitches.push(await capturePitchSnippet());
               sendMetricsToBackend(pitches);
@@ -180,7 +169,6 @@ function loadDashboardMetrics() {
     }
 
     function sendMetricsToBackend(pitches) {
-      // FIXED: Formatted audio transmissions as URLSearchParams
       var metricsForm = new URLSearchParams();
       metricsForm.append("action", "streamPerformanceMetrics");
       metricsForm.append("email", activeParticipant.email);
@@ -210,12 +198,9 @@ function loadDashboardMetrics() {
       if(audioContext) audioContext.close();
     }
 
-var purgeConfirmationCount = 0;
-
     function finalizeContestEvent() {
       if(!confirm("Lock contest and dispatch emails?")) return;
       
-      // Force clean up any old leftover script tag first
       var oldScript = document.getElementById("jsonpClosureScript");
       if(oldScript) oldScript.remove();
 
@@ -227,7 +212,6 @@ var purgeConfirmationCount = 0;
 
       var scriptTag = document.createElement("script");
       scriptTag.id = "jsonpClosureScript";
-      // This ensures it uses the exact variable name and bypasses browser caching
       scriptTag.src = webAppUrl + "?action=triggerContestClosure&callback=handleGoogleJsonpClosure&_ts=" + new Date().getTime();
       
       scriptTag.onerror = function() {
@@ -236,35 +220,6 @@ var purgeConfirmationCount = 0;
       };
 
       document.head.appendChild(scriptTag);
-    }
-
-    function triggerPurgeExecution() {
-      purgeConfirmationCount++;
-      if (purgeConfirmationCount === 1) {
-        alert("⚠️ WARNING: Click 'Purge System Data' a second time to permanently clear all registration history.");
-      } else {
-        var oldScript = document.getElementById("jsonpPurgeScript");
-        if(oldScript) oldScript.remove();
-
-        window.handleGoogleJsonpPurge = function(res) {
-          alert("Database rows successfully dropped from all tabs.");
-          var s = document.getElementById("jsonpPurgeScript");
-          if(s) s.remove();
-          purgeConfirmationCount = 0;
-        };
-
-        var scriptTag = document.createElement("script");
-        scriptTag.id = "jsonpPurgeScript";
-        scriptTag.src = webAppUrl + "?action=purgeSystemDatabase&callback=handleGoogleJsonpPurge&_ts=" + new Date().getTime();
-        
-        scriptTag.onerror = function() {
-          alert("Network communication error trying to reach the server.");
-          if(document.getElementById("jsonpPurgeScript")) document.getElementById("jsonpPurgeScript").remove();
-          purgeConfirmationCount = 0;
-        };
-
-        document.head.appendChild(scriptTag);
-      }
     }
 
     function autoCorrelateValue(buf, sr) {
@@ -285,4 +240,3 @@ var purgeConfirmationCount = 0;
   </script>
 </body>
 </html>
-
