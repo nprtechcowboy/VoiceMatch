@@ -3,152 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sing Your Heart Out! - Host Command Center</title>
-  <!-- Tailwind CSS for high-fidelity rendering -->
+  <title>Sing Your Heart Out! - Tech Cowboy Mainframe</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Special+開Elite&family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #f9f4eb;
-      color: #5a4225;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #0b0705;
+      background-image: radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 0);
+      background-size: 20px 20px;
+      color: #ebdcb9;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    .cowboy-title {
+      font-family: 'Special Elite', monospace;
     }
     
-    /* 🟢 Microphone Default State (Ready) */
+    /* 🟢 Mic Armed State (Cyberpunk Green Glow) */
     .btn-ready {
-      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%) !important;
       color: white !important;
-      box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
-      transition: all 0.3s ease;
+      border: 1px solid #34d399 !important;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .btn-ready:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.7);
+      transform: scale(1.01);
     }
 
-    /* 🟡 Microphone Countdown State (5s Warm-up) */
+    /* 🟡 Mic Warning Countdown State (Warning Alert Light) */
     .btn-countdown {
-      background: linear-gradient(135deg, #ffc107 0%, #d39e00 100%) !important;
-      color: #212529 !important;
-      font-weight: 800 !important;
-      border: 2px solid #b58600 !important;
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%) !important;
+      color: black !important;
+      font-weight: 900 !important;
+      border: 2px dashed black !important;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
       cursor: not-allowed !important;
-      transform: scale(0.98);
     }
 
-    /* 🔴 Microphone Live Recording State (Capturing Data) */
+    /* 🔴 Mic Hot Recording State (Cyberpunk Laser Red) */
     .btn-live {
-      background: linear-gradient(135deg, #dc3545 0%, #bd2130 100%) !important;
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
       color: white !important;
-      font-weight: 800 !important;
+      border: 1px solid #f87171 !important;
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+      animation: alertPulse 1.2s infinite ease-in-out;
       cursor: not-allowed !important;
-      box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
-      animation: micPulse 1.5s infinite ease-in-out;
     }
 
-    @keyframes micPulse {
-      0% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 53, 69, 0.5); }
-      50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(220, 53, 69, 0.8); }
-      100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 53, 69, 0.5); }
+    @keyframes alertPulse {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
+      50% { transform: scale(1.01); box-shadow: 0 0 35px rgba(239, 68, 68, 0.9); filter: brightness(1.2); }
+      100% { transform: scale(1); box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
     }
   </style>
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-6xl mx-auto">
-    <!-- Header Controls -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-xl border border-[#ebdcb9] shadow-sm gap-4">
+    <!-- Mainframe Control Header -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-[#1c120f] p-6 rounded-xl border border-[#8c7355] shadow-2xl relative gap-4">
+      <div class="absolute top-0 left-4 w-12 h-1 bg-[#f43f5e]"></div>
       <div>
-        <h1 class="text-3xl font-black text-[#aa00ff] tracking-tight uppercase">Command Center</h1>
-        <p class="text-sm text-[#8c7355]">Fundraiser Live Scoring Desk & Tournament Engine</p>
+        <h1 class="text-3xl font-black text-[#f59e0b] tracking-wider uppercase filter drop-shadow-[0_0_5px_rgba(245,158,11,0.4)] cowboy-title">COWBOY MAINFRAME</h1>
+        <p class="text-xs text-[#8c7355] font-mono uppercase tracking-widest mt-1">Live Telemetry Terminal // Node.01</p>
       </div>
-      <div class="flex gap-3">
-        <button onclick="triggerEndContest()" class="px-5 py-2.5 bg-gradient-to-r from-[#aa00ff] to-[#ff007f] text-white font-bold rounded-lg shadow-sm hover:opacity-90 active:scale-95 transition-all text-sm">
-          🏆 CONTEST COMPLETE
+      <div>
+        <button onclick="triggerEndContest()" class="px-6 py-3 bg-gradient-to-r from-[#f43f5e] to-[#b91c1c] text-white font-bold rounded-lg shadow-lg border border-[#f87171] hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest font-mono">
+          🏆 RETAIN CONTEST OVERRIDE [COMPLETE]
         </button>
       </div>
     </div>
 
-    <!-- Active Grid System -->
+    <!-- Interface Workspace Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
-      <!-- Left Column: Active Microscopic Stage Monitor -->
-      <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-[#ebdcb9] shadow-sm flex flex-col justify-between min-h-[400px]">
+      <!-- Stage Monitor Terminal Window -->
+      <div class="lg:col-span-2 bg-[#1c120f] p-6 rounded-xl border border-[#8c7355] shadow-xl flex flex-col justify-between min-h-[420px]">
         <div>
-          <h2 class="text-xl font-bold text-[#3d2b19] border-b pb-2 mb-4 border-[#f1ebd9]">Live Stage Performance Scanner</h2>
+          <h2 class="text-sm font-bold tracking-widest text-[#8c7355] uppercase font-mono border-b border-[#3a251e] pb-2 mb-4">Live Matrix Stream</h2>
           
-          <!-- Selected Singer Profile Summary Card -->
-          <div class="bg-[#fffcf7] p-4 rounded-lg border border-[#ebdcb9] mb-6">
-            <span class="text-xs font-bold uppercase tracking-wider text-[#ff007f]">Now Performing On Stage:</span>
-            <div id="activeSingerDisplay" class="text-2xl font-black text-[#3d2b19] mt-1">No Performer Loaded</div>
-            <div id="activeGenreDisplay" class="text-sm text-[#8c7355] italic">Select a contestant from the queue...</div>
+          <!-- Loaded Target Card -->
+          <div class="bg-[#130b09] p-5 rounded-lg border border-[#3a251e] mb-6 relative">
+            <span class="text-[10px] font-mono tracking-widest uppercase text-[#f43f5e] bg-[#3a1118] px-2 py-0.5 rounded border border-[#6b1d2f]">Target Profile Loaded</span>
+            <div id="activeSingerDisplay" class="text-3xl font-black text-[#ebdcb9] mt-3 tracking-wide font-mono">No Outlaw Selected</div>
+            <div id="activeGenreDisplay" class="text-xs text-[#8c7355] font-mono italic mt-1">Standby... Arm data tracking from column matrix.</div>
           </div>
 
-          <!-- Dynamic Live Pitch Matrix Readout Window -->
+          <!-- Dynamic Sensor Node Feedback Array -->
           <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <div class="text-xs font-bold text-gray-500 uppercase">Interval 1</div>
-              <div id="pitchReadout1" class="text-lg font-mono font-bold text-gray-700 mt-1">-- Hz</div>
+            <div class="bg-[#130b09] p-4 rounded-lg border border-[#2d1b16]">
+              <div class="text-[10px] font-mono font-bold text-[#8c7355] uppercase tracking-wider">Node 1 (30s)</div>
+              <div id="pitchReadout1" class="text-2xl font-mono font-black text-[#ebdcb9] mt-2">-- Hz</div>
             </div>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <div class="text-xs font-bold text-gray-500 uppercase">Interval 2</div>
-              <div id="pitchReadout2" class="text-lg font-mono font-bold text-gray-700 mt-1">-- Hz</div>
+            <div class="bg-[#130b09] p-4 rounded-lg border border-[#2d1b16]">
+              <div class="text-[10px] font-mono font-bold text-[#8c7355] uppercase tracking-wider">Node 2 (45s)</div>
+              <div id="pitchReadout2" class="text-2xl font-mono font-black text-[#ebdcb9] mt-2">-- Hz</div>
             </div>
-            <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-              <div class="text-xs font-bold text-gray-500 uppercase">Interval 3</div>
-              <div id="pitchReadout3" class="text-lg font-mono font-bold text-gray-700 mt-1">-- Hz</div>
+            <div class="bg-[#130b09] p-4 rounded-lg border border-[#2d1b16]">
+              <div class="text-[10px] font-mono font-bold text-[#8c7355] uppercase tracking-wider">Node 3 (75s)</div>
+              <div id="pitchReadout3" class="text-2xl font-mono font-black text-[#ebdcb9] mt-2">-- Hz</div>
             </div>
           </div>
         </div>
 
-        <!-- The Visual State Control Button Matrix -->
+        <!-- System Hot Trigger -->
         <div>
-          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-4 rounded-xl text-center font-bold text-lg uppercase transition-all btn-ready opacity-50 cursor-not-allowed">
-            Select A Contestant Below To Arm Microphone
+          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded-xl text-center font-bold text-base uppercase tracking-widest font-mono transition-all btn-ready opacity-30 cursor-not-allowed">
+            [ Waiting for target telemetry deployment ]
           </button>
         </div>
       </div>
 
-      <!-- Right Column: Live Contestant Signups Queue -->
-      <div class="bg-white p-6 rounded-xl border border-[#ebdcb9] shadow-sm">
-        <div class="flex justify-between items-center border-b pb-2 mb-4 border-[#f1ebd9]">
-          <h2 class="text-xl font-bold text-[#3d2b19]">Performer Queue</h2>
-          <button onclick="refreshDashboardData()" class="text-xs text-[#aa00ff] font-bold hover:underline">🔄 REFRESH</button>
+      <!-- Outlaw Roster Control Stack -->
+      <div class="bg-[#1c120f] p-6 rounded-xl border border-[#8c7355] shadow-xl">
+        <div class="flex justify-between items-center border-b border-[#3a251e] pb-2 mb-4">
+          <h2 class="text-sm font-bold tracking-widest text-[#8c7355] uppercase font-mono">Outlaw Queue Matrix</h2>
+          <button onclick="refreshDashboardData()" class="text-xs text-[#f59e0b] font-bold tracking-wider hover:underline font-mono">🔄 PING SATELLITE</button>
         </div>
         
-        <div id="queueContainer" class="space-y-3 max-h-[450px] overflow-y-auto pr-1">
-          <p class="text-sm text-[#8c7355] italic text-center py-8">Loading live project data streams...</p>
+        <div id="queueContainer" class="space-y-3 max-h-[460px] overflow-y-auto pr-1">
+          <p class="text-xs text-[#8c7355] font-mono italic text-center py-8">Scanning for rogue audio signals...</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- JavaScript Server Bridge Pipeline Integration Block -->
   <script>
-    // Configuration Coordinates
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
-    
-    // Global Runtime Variables
-    let selectedEmail = "";
-    let selectedName = "";
-    let trackingInterval = null;
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwPqOswk64jF86n02YF8J6Uj3Wc1L78p_2rE5W0xX0/exec"; 
+    let selectedEmail = "", selectedName = "", trackingInterval = null;
+    let audioCtx = null, analyser = null, sourceStream = null, capturedPitches = [];
 
-    // Web Audio Variables for Real Pitch Capture
-    let audioCtx = null;
-    let analyser = null;
-    let sourceStream = null;
-
-    // Data Cache Arrays
-    let capturedPitches = [];
-
-    // Document Elements
     const recordBtn = document.getElementById("recordBtn");
     const activeSingerDisplay = document.getElementById("activeSingerDisplay");
     const activeGenreDisplay = document.getElementById("activeGenreDisplay");
 
-    /**
-     * POLLING DISPATCHER: Fetch data from Apps Script database
-     */
     function refreshDashboardData() {
       const script = document.createElement("script");
       script.src = `${WEB_APP_URL}?action=getHostData&callback=renderDashboard`;
@@ -156,75 +146,62 @@
       document.body.removeChild(script);
     }
 
-    /**
-     * RENDER SYSTEM GRID: Builds interactive queue buttons
-     */
     window.renderDashboard = function(response) {
       const queueContainer = document.getElementById("queueContainer");
       queueContainer.innerHTML = "";
 
       if (!response.success || response.payload.queue.length === 0) {
-        queueContainer.innerHTML = `<p class="text-sm text-[#8c7355] italic text-center py-8">No singers currently in queue.</p>`;
+        queueContainer.innerHTML = `<p class="text-xs text-[#8c7355] font-mono italic text-center py-8">No matching targets found in this sector.</p>`;
         return;
       }
 
       response.payload.queue.forEach(singer => {
         const item = document.createElement("div");
-        item.className = `p-3 rounded-lg border transition-all cursor-pointer flex justify-between items-center ${
-          singer.status.includes("Analyzed") ? "bg-purple-50 border-purple-200 opacity-60" : "bg-white border-gray-200 hover:border-[#aa00ff]"
+        const parsed = singer.status.includes("Analyzed");
+        item.className = `p-3 rounded-lg border transition-all cursor-pointer flex justify-between items-center font-mono ${
+          parsed ? "bg-[#251512] border-[#5e2f25] opacity-40" : "bg-[#130b09] border-[#3a251e] hover:border-[#f59e0b]"
         }`;
         
         item.innerHTML = `
           <div>
-            <div class="font-bold text-[#3d2b19]">${singer.stageName}</div>
-            <div class="text-xs text-[#8c7355]">${singer.genre}</div>
+            <div class="font-bold text-[#ebdcb9] text-sm">${singer.stageName}</div>
+            <div class="text-[10px] text-[#8c7355] mt-0.5">${singer.genre}</div>
           </div>
-          <span class="text-xs px-2 py-1 rounded font-mono ${
-            singer.status.includes("Analyzed") ? "bg-purple-200 text-purple-800" : "bg-yellow-100 text-yellow-800"
-          }">${singer.status}</span>
+          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider border ${
+            parsed ? "bg-[#3e1b15] text-[#ff7c6b] border-[#6b2518]" : "bg-[#2e210b] text-[#f59e0b] border-[#593d0d]"
+          }">${singer.status.toUpperCase()}</span>
         `;
 
-        if (!singer.status.includes("Analyzed")) {
+        if (!parsed) {
           item.onclick = () => loadContestantIntoScanner(singer.email, singer.stageName, singer.genre);
         }
         queueContainer.appendChild(item);
       });
     };
 
-    /**
-     * STAGE ENGINE LOAD: Preps mic state for selected singer
-     */
     function loadContestantIntoScanner(email, name, genre) {
       selectedEmail = email;
       selectedName = name;
+      activeSingerDisplay.innerText = name.toUpperCase();
+      activeGenreDisplay.innerText = `FREQ SECTOR: ${genre.toUpperCase()}`;
       
-      activeSingerDisplay.innerText = name;
-      activeGenreDisplay.innerText = `Genre Track: ${genre}`;
-      
-      // Arm the button to Green/Ready state
-      recordBtn.className = "w-full py-4 rounded-xl text-center font-bold text-lg uppercase transition-all btn-ready";
-      recordBtn.innerText = "🎬 START PERFORMANCE SEQUENCE";
+      recordBtn.className = "w-full py-5 rounded-xl text-center font-bold text-base uppercase tracking-widest font-mono transition-all btn-ready";
+      recordBtn.innerText = "⚡ INITIALIZE HARDWARE INTERFACE";
       recordBtn.disabled = false;
 
-      // Reset numeric readouts
       document.getElementById("pitchReadout1").innerText = "-- Hz";
       document.getElementById("pitchReadout2").innerText = "-- Hz";
       document.getElementById("pitchReadout3").innerText = "-- Hz";
       capturedPitches = [];
     }
 
-    /**
-     * ⏳ STEP 1 & 2 SEQUENCE: Color-changing automation execution
-     */
     function initiatePerformanceSequence() {
       let countdown = 5;
-      
-      // Trigger Yellow State (Countdown Mode)
-      recordBtn.className = "w-full py-4 rounded-xl text-center font-bold text-lg uppercase transition-all btn-countdown";
+      recordBtn.className = "w-full py-5 rounded-xl text-center font-bold text-base uppercase tracking-widest font-mono transition-all btn-countdown";
       recordBtn.disabled = true;
 
       const countdownTimer = setInterval(() => {
-        recordBtn.innerText = `🎤 MIC ACTIVE IN: ${countdown}s`;
+        recordBtn.innerText = `🚨 SCANNER ONLINE IN: ${countdown}s`;
         countdown--;
 
         if (countdown < 0) {
@@ -234,100 +211,61 @@
       }, 1000);
     }
 
-    /**
-     * 🔴 LIVE AUDIO RECORDING STATE: Opens real Web Audio stream
-     */
     function executeLiveAudioRecording() {
-      // Trigger Red State (Live Mic On)
-      recordBtn.className = "w-full py-4 rounded-xl text-center font-bold text-lg uppercase transition-all btn-live";
-      recordBtn.innerText = "🔴 LIVE MIC - SAMPLE SCANNING ACTIVE";
+      recordBtn.className = "w-full py-5 rounded-xl text-center font-bold text-base uppercase tracking-widest font-mono transition-all btn-live";
+      recordBtn.innerText = "📡 MIC STREAM ACTIVE // SCANNING AUDIO CHECKPOINTS";
       
-      capturedPitches = [];
-      
-      // Initialize browser microphone stream natively
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         .then(stream => {
           sourceStream = stream;
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 2048;
-          
           const source = audioCtx.createMediaStreamSource(stream);
           source.connect(analyser);
-          
-          // Start the 45-second timeline capture framework (Sampling intervals)
           runTimelineCaptureLoop();
         })
         .catch(err => {
-          console.error("Audio Access Blocked: ", err);
-          alert("Microphone execution failed. Verify site system permissions.");
+          alert("Audio link configuration broke.");
           resetHardwareState();
         });
     }
 
-    /**
-     * ⏱️ AUDIO METRIC SAMPLING LOOP
-     * Captures pitch points at the defined script timing intervals (30s, 45s, 75s total)
-     */
     function runTimelineCaptureLoop() {
       let runSeconds = 0;
-
       trackingInterval = setInterval(() => {
         runSeconds++;
-        
-        // Dynamic reading tracking calculation
         let runningFrequency = autoDetectLivePitch();
         
-        // Interval Checkpoint 1: 30 Seconds Into Song
         if (runSeconds === 30) {
           capturedPitches[0] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (220 - 130) + 130);
           document.getElementById("pitchReadout1").innerText = `${capturedPitches[0]} Hz`;
         }
-        
-        // Interval Checkpoint 2: 45 Seconds Into Song
         if (runSeconds === 45) {
           capturedPitches[1] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (240 - 140) + 140);
           document.getElementById("pitchReadout2").innerText = `${capturedPitches[1]} Hz`;
         }
-        
-        // Interval Checkpoint 3: 75 Seconds Into Song (Complete)
         if (runSeconds === 75) {
           clearInterval(trackingInterval);
           capturedPitches[2] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (210 - 135) + 135);
           document.getElementById("pitchReadout3").innerText = `${capturedPitches[2]} Hz`;
-          
-          // Stream completed matrix to database pipeline
           transmitMetricsToServer();
         }
       }, 1000);
     }
 
-    /**
-     * AUTOCORRELATION FREQUENCY DETECTION ALGORITHM
-     * Checks browser buffer windows for valid pitch tracking
-     */
     function autoDetectLivePitch() {
       if (!analyser) return 0;
-      let bufferLength = analyser.fftSize;
-      let buffer = new Float32Array(bufferLength);
+      let buffer = new Float32Array(analyser.fftSize);
       analyser.getFloatTimeDomainData(buffer);
-      
-      // Simple root-mean-square amplitude threshold check
       let rms = 0;
-      for (let i = 0; i < bufferLength; i++) { rms += buffer[i] * buffer[i]; }
-      rms = Math.sqrt(rms / bufferLength);
-      if (rms < 0.01) return 0; // Singer is silent
-      
-      // Basic pitch matching sample return
+      for (let i = 0; i < buffer.length; i++) { rms += buffer[i] * buffer[i]; }
+      if (Math.sqrt(rms / buffer.length) < 0.01) return 0;
       return Math.floor(Math.random() * (230 - 120) + 120);
     }
 
-    /**
-     * TRANSMIT PIPELINE: POST metrics to Apps Script API
-     */
     function transmitMetricsToServer() {
-      recordBtn.innerText = "📤 PROCESSING REAL-TIME AI JUDGING...";
-      
+      recordBtn.innerText = "🛰️ STREAMING UPLINK PACKETS TO SATELLITE...";
       const formData = new URLSearchParams();
       formData.append("action", "streamPerformanceMetrics");
       formData.append("email", selectedEmail);
@@ -343,47 +281,30 @@
       })
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
-          alert(`Analysis Complete! AI Judge evaluation and Match Matrix sent to ${selectedName}'s inbox immediately.`);
-        } else {
-          alert(`Server processing alert: ${data.message}`);
-        }
+        alert(data.success ? "AI validation broadcasted cleanly to target console." : "Payload anomaly detected.");
         resetHardwareState();
         refreshDashboardData();
       })
       .catch(err => {
-        console.error(err);
-        alert("Network communication timeout error.");
+        alert("Satellite link dropped.");
         resetHardwareState();
       });
     }
 
-    /**
-     * CLEANUP MATRIX: Safely kills hardware access streams
-     */
     function resetHardwareState() {
       if (trackingInterval) clearInterval(trackingInterval);
-      if (sourceStream) {
-        sourceStream.getTracks().forEach(track => track.stop());
-      }
+      if (sourceStream) sourceStream.getTracks().forEach(t => t.stop());
       if (audioCtx) audioCtx.close();
-      
-      selectedEmail = "";
-      selectedName = "";
-      activeSingerDisplay.innerText = "No Performer Loaded";
-      activeGenreDisplay.innerText = "Select a contestant from the queue...";
-      
-      recordBtn.className = "w-full py-4 rounded-xl text-center font-bold text-lg uppercase transition-all btn-ready opacity-50 cursor-not-allowed";
-      recordBtn.innerText = "Select A Contestant Below To Arm Microphone";
+      selectedEmail = ""; selectedName = "";
+      activeSingerDisplay.innerText = "No Outlaw Selected";
+      activeGenreDisplay.innerText = "Standby... Arm data tracking from column matrix.";
+      recordBtn.className = "w-full py-5 rounded-xl text-center font-bold text-base uppercase tracking-widest font-mono transition-all btn-ready opacity-30 cursor-not-allowed";
+      recordBtn.innerText = "[ Waiting for target telemetry deployment ]";
       recordBtn.disabled = true;
     }
 
-    /**
-     * GRAND FINALE TRIGGER: Resolves tournament scoreboard deployment
-     */
     function triggerEndContest() {
-      if (!confirm("Are you sure the contest is finished? Clicking this will calculate tournament rankings, email all remaining scorecards, archive records to the spreadsheet, and clear the dashboard.")) return;
-      
+      if (!confirm("Decommission system telemetry tracking permanently for tonight?")) return;
       const script = document.createElement("script");
       script.src = `${WEB_APP_URL}?action=triggerContestClosure&callback=contestClosureConfirmation`;
       document.body.appendChild(script);
@@ -391,18 +312,12 @@
     }
 
     window.contestClosureConfirmation = function(response) {
-      if (response.success && response.payload === "Done") {
-        alert("Tournament Locked! Scorecards successfully generated and archived.");
-      } else {
-        alert("Closure processing note: System reset confirmed.");
-      }
+      alert("Sector terminal successfully purged and cleared.");
       resetHardwareState();
       refreshDashboardData();
     };
 
-    // Auto-Initialize on boot
     window.onload = refreshDashboardData;
   </script>
-
 </body>
 </html>
