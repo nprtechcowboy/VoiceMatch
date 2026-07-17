@@ -3,345 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sing Your Heart Out! - Cowboy Dashboard</title>
+  <title>Sing Your Heart Out - Registration Node</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      /* 🪵 Outer Framing: Deep vertical rustic wood panel look from your image */
-      background-color: #3d2111;
-      background-image: linear-gradient(rgba(43, 23, 12, 0.85), rgba(28, 15, 8, 0.95)), 
+      /* 🪵 Background: Realistic vertical dark wood planks */
+      background-color: #2b170c;
+      background-image: linear-gradient(rgba(43, 23, 12, 0.8), rgba(28, 15, 8, 0.9)), 
                         url('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=1200');
       background-size: cover;
       background-attachment: fixed;
-      color: #2b1a0d;
       font-family: Arial, Helvetica, sans-serif;
+      color: #2b1a0d;
     }
     
-    /* 📜 The Parchment Scroll Layout Card from your reference image */
-    .parchment-card {
-      background-color: #fcefd2; /* Warm, aged old-paper tone */
-      background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
-      background-size: 8px 8px;
-      border: 3px solid #6b4423; /* Darker tooled wood edge */
-      border-radius: 6px;
-      position: relative;
-      
-      /* ⚡ Cyberpunk Integration: Sharp Neon Purple light border loop wrapped directly around the wood edge */
-      outline: 4px solid #b624ff;
-      box-shadow: 0 0 20px #aa00ff, inset 0 0 15px rgba(170, 0, 255, 0.1);
+    /* 📜 Jagged Modern CSS Parchment Sheet Wrapper */
+    .parchment-container {
+      background-color: #f7ebd3;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
+      background-size: 12px 12px;
+      /* Procedural jagged ripped edge generation via clip-path polygon matrix */
+      clip-path: polygon(
+        0% 2%, 3% 0%, 7% 3%, 11% 1%, 15% 4%, 20% 1%, 24% 3%, 28% 0%, 33% 2%, 38% 0%, 42% 3%, 47% 1%, 52% 4%, 56% 1%, 61% 3%, 65% 0%, 70% 2%, 75% 1%, 79% 4%, 84% 0%, 88% 3%, 93% 1%, 97% 4%, 100% 1%,
+        100% 98%, 96% 100%, 92% 97%, 88% 99%, 83% 96%, 79% 99%, 75% 97%, 71% 100%, 66% 97%, 62% 99%, 57% 96%, 53% 99%, 48% 97%, 44% 100%, 39% 97%, 35% 99%, 30% 96%, 26% 99%, 21% 97%, 17% 100%, 12% 96%, 8% 98%, 4% 96%, 0% 99%
+      );
+      padding: 3rem 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
 
-    /* Gritty screw/bolt head accents in the corners mimicking pinned parchment */
-    .parchment-card::before, .parchment-card::after {
-      content: "★";
-      position: absolute;
-      font-size: 10px;
-      color: #8c6239;
-      opacity: 0.6;
+    /* 🗃️ Dark Inner Info Panels (Matching the Louvale Motors sub-cards style) */
+    .inner-dark-card {
+      background-color: #2b1b11;
+      color: #f7ebd3;
+      border-radius: 4px;
+      border: 1px solid #4a3120;
     }
-    .parchment-card::before { top: 6px; left: 8px; }
-    .parchment-card::after { top: 6px; right: 8px; }
 
-    /* 🟢 Mic Armed Button */
-    .btn-ready {
-      background-color: #10b981 !important;
-      color: white !important;
-      border-bottom: 4px solid #047857 !important;
+    input, select {
+      background-color: #ffffff !important;
+      border: 2px solid #a68463 !important;
+      color: #2b1a0d !important;
       font-weight: bold;
-      transition: all 0.2s ease-in-out;
+      font-family: Arial, Helvetica, sans-serif;
     }
-    .btn-ready:hover {
-      filter: brightness(1.1);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
-    }
-
-    /* 🟡 Mic Countdown state */
-    .btn-countdown {
-      background-color: #d97706 !important;
-      color: white !important;
-      border-bottom: 4px solid #92400e !important;
-      font-weight: bold;
-      cursor: not-allowed !important;
-    }
-
-    /* 🔴 Mic Hot Recording state */
-    .btn-live {
-      background-color: #dc2626 !important;
-      color: white !important;
-      border-bottom: 4px solid #991b1b !important;
-      font-weight: bold;
-      animation: alertPulse 1.4s infinite ease-in-out;
-      cursor: not-allowed !important;
-    }
-
-    @keyframes alertPulse {
-      0% { box-shadow: 0 0 10px #dc2626; }
-      50% { box-shadow: 0 0 25px #ef4444; }
-      100% { box-shadow: 0 0 10px #dc2626; }
+    input:focus, select:focus {
+      outline: none !important;
+      border-color: #8c5835 !important;
+      box-shadow: 0 0 0 3px rgba(140, 88, 53, 0.2) !important;
     }
   </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 min-h-screen flex items-center justify-center">
 
-  <div class="max-w-6xl mx-auto">
-    <!-- Main Header Panel (Styled like the upper wood console banner) -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 p-6 rounded relative gap-4 parchment-card">
-      <div>
-        <h1 class="text-3xl font-black tracking-tighter text-[#2b1a0d] uppercase" style="letter-spacing: -0.5px;">COWBOY MAINFRAME</h1>
-        <p class="text-xs text-[#aa00ff] font-bold uppercase tracking-widest mt-0.5">Live Telemetry Terminal // Node.01</p>
-      </div>
-      <div>
-        <button onclick="triggerEndContest()" class="px-6 py-3 bg-[#aa00ff] hover:bg-[#b624ff] text-white font-bold rounded border-b-4 border-[#7b00b8] text-xs uppercase tracking-wider transition-all shadow-md">
-          🏆 COMPLETE CONTEST OVERRIDE
-        </button>
-      </div>
-    </div>
-
-    <!-- Active Grid Controls -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="w-full max-w-xl">
+    <div class="parchment-container">
       
-      <!-- Left Area: Main Stage Capture Node -->
-      <div class="lg:col-span-2 p-6 flex flex-col justify-between min-h-[440px] parchment-card">
-        <div>
-          <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase border-b-2 border-dashed border-[#d1be9b] pb-2 mb-4">Live Audio Telemetry Deck</h2>
-          
-          <!-- Selected Outlaw Target Banner -->
-          <div class="bg-[#ebd9b5] p-5 rounded border border-[#c2aa80] mb-6">
-            <span class="text-[9px] tracking-widest uppercase font-black text-white bg-[#aa00ff] px-2 py-0.5 rounded shadow-sm">Active Target</span>
-            <div id="activeSingerDisplay" class="text-3xl font-black text-[#2b1a0d] mt-3 tracking-tight uppercase">NO OUTLAW SELECTED</div>
-            <div id="activeGenreDisplay" class="text-xs text-[#7a5535] font-bold italic mt-1">Select a performer from the queue matrix...</div>
-          </div>
-
-          <!-- Dynamic Sensor Node Readouts -->
-          <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
-              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 1 (30s)</div>
-              <div id="pitchReadout1" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
-            </div>
-            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
-              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 2 (45s)</div>
-              <div id="pitchReadout2" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
-            </div>
-            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
-              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 3 (75s)</div>
-              <div id="pitchReadout3" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Microphone Execution Switch -->
-        <div>
-          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
-            [ STANDBY FOR TARGET CONFIGURATION ]
-          </button>
-        </div>
+      <!-- Top Branding Section -->
+      <div class="text-center mb-8 border-b-2 border-solid border-[#a68463] pb-6">
+        <h1 class="text-4xl font-black tracking-tight uppercase text-[#2b1a0d]">
+          SING YOUR HEART OUT
+        </h1>
+        <p class="text-xs uppercase tracking-[0.2em] text-[#7a5535] mt-1.5 font-bold">
+          LIVE FRONTEND INTAKE LOG
+        </p>
       </div>
 
-      <!-- Right Area: Outlaw Roster Side Panel -->
-      <div class="p-6 flex flex-col justify-between parchment-card">
+      <!-- Input Forms Layout -->
+      <form id="registrationForm" onsubmit="submitOutlawSignup(event)" class="space-y-6">
         <div>
-          <div class="flex justify-between items-center border-b-2 border-dashed border-[#d1be9b] pb-2 mb-4">
-            <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
-            <button onclick="refreshDashboardData()" class="text-xs text-[#aa00ff] font-black tracking-wider hover:underline">🔄 PING ROSTER</button>
-          </div>
-          
-          <div id="queueContainer" class="space-y-3 max-h-[420px] overflow-y-auto pr-1">
-            <p class="text-xs text-[#7a5535] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
-          </div>
+          <label class="block text-xs font-black uppercase tracking-widest text-[#2b1a0d] mb-2">🤠 PERFORMER STAGE HANDLE</label>
+          <input type="text" id="stageName" required placeholder="e.g., Wyatt" class="w-full px-4 py-3 rounded text-sm transition-all">
         </div>
-      </div>
+
+        <div>
+          <label class="block text-xs font-black uppercase tracking-widest text-[#2b1a0d] mb-2">📧 COMM LINK ADDRESS (EMAIL)</label>
+          <input type="email" id="email" required placeholder="cowboy@frontier.net" class="w-full px-4 py-3 rounded text-sm transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-black uppercase tracking-widest text-[#2b1a0d] mb-2">💿 SELECTED SONG CATEGORY LANE</label>
+          <select id="genre" required class="w-full px-4 py-3 rounded text-sm transition-all appearance-none bg-white">
+            <option value="Pop Anthems">Pop Anthems</option>
+            <option value="Rock Ballads">Rock Ballads</option>
+            <option value="Classic Country">Classic Country</option>
+            <option value="Modern Country Pop">Modern Country Pop</option>
+            <option value="R&B and Soul">R&B and Soul</option>
+            <option value="Hip-Hop and Rap">Hip-Hop and Rap</option>
+            <option value="Jazz and Blues">Jazz and Blues</option>
+            <option value="Latin Hits">Latin Hits</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-3 bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
+          <input type="checkbox" id="contestOptIn" checked class="w-5 h-5 rounded cursor-pointer accent-[#8c5835]">
+          <label for="contestOptIn" class="text-xs text-[#2b1a0d] font-bold leading-tight">
+            I AUTHORIZE LIVE AUDIO TELEMETRY CAPTURE AND CONSENT TO BROADCASTING MY SYSTEM METRICS.
+          </label>
+        </div>
+
+        <!-- Classic Styled Frontier Button -->
+        <button type="submit" class="w-full py-4 rounded font-black uppercase tracking-wider text-white bg-[#7a4b29] hover:bg-[#613b1f] active:transform active:scale-[0.99] transition-all duration-150 border-b-4 border-[#4d2f19] text-sm shadow-md">
+          SUBMIT MATRIX SIGNUP
+        </button>
+      </form>
 
     </div>
   </div>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwPqOswk64jF86n02YF8J6Uj3Wc1L78p_2rE5W0xX0/exec"; 
-    let selectedEmail = "", selectedName = "", trackingInterval = null;
-    let audioCtx = null, analyser = null, sourceStream = null, capturedPitches = [];
+    const CONFIG_API = "https://script.google.com/macros/s/AKfycbwPqOswk64jF86n02YF8J6Uj3Wc1L78p_2rE5W0xX0/exec";
 
-    const recordBtn = document.getElementById("recordBtn");
-    const activeSingerDisplay = document.getElementById("activeSingerDisplay");
-    const activeGenreDisplay = document.getElementById("activeGenreDisplay");
+    function submitOutlawSignup(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.innerText = "SAVING TELEMETRY DATA...";
+      btn.disabled = true;
 
-    function refreshDashboardData() {
-      const script = document.createElement("script");
-      script.src = `${WEB_APP_URL}?action=getHostData&callback=renderDashboard`;
-      document.body.appendChild(script);
-      document.body.removeChild(script);
-    }
+      const params = new URLSearchParams();
+      params.append("action", "registerParticipant");
+      params.append("stageName", document.getElementById("stageName").value);
+      params.append("email", document.getElementById("email").value);
+      params.append("genre", document.getElementById("genre").value);
+      params.append("contestOptIn", document.getElementById("contestOptIn").checked ? "Yes" : "No");
 
-    window.renderDashboard = function(response) {
-      const queueContainer = document.getElementById("queueContainer");
-      queueContainer.innerHTML = "";
-
-      if (!response.success || response.payload.queue.length === 0) {
-        queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in queue.</p>`;
-        return;
-      }
-
-      response.payload.queue.forEach(singer => {
-        const item = document.createElement("div");
-        const parsed = singer.status.includes("Analyzed");
-        item.className = `p-3 rounded border-2 transition-all cursor-pointer flex justify-between items-center ${
-          parsed ? "bg-[#e3d3b3] border-[#b09b76] opacity-50" : "bg-white border-[#c2aa80] hover:border-[#aa00ff]"
-        }`;
-        
-        item.innerHTML = `
-          <div>
-            <div class="font-black text-[#2b1a0d] text-sm tracking-tight">${singer.stageName}</div>
-            <div class="text-[10px] text-[#7a5535] font-bold mt-0.5">${singer.genre}</div>
-          </div>
-          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider font-black border ${
-            parsed ? "bg-[#ebd3f7] text-[#9317db] border-[#cfacf2]" : "bg-[#ebd9b5] text-[#2b1a0d] border-[#c2aa80]"
-          }">${singer.status.toUpperCase()}</span>
-        `;
-
-        if (!parsed) {
-          item.onclick = () => loadContestantIntoScanner(singer.email, singer.stageName, singer.genre);
-        }
-        queueContainer.appendChild(item);
-      });
-    };
-
-    function loadContestantIntoScanner(email, name, genre) {
-      selectedEmail = email;
-      selectedName = name;
-      activeSingerDisplay.innerText = name.toUpperCase();
-      activeGenreDisplay.innerText = `FREQ SECTOR // ${genre.toUpperCase()}`;
-      
-      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready";
-      recordBtn.innerText = "⚡ RUN TELEMETRY INTERFACE LOG";
-      recordBtn.disabled = false;
-
-      document.getElementById("pitchReadout1").innerText = "-- Hz";
-      document.getElementById("pitchReadout2").innerText = "-- Hz";
-      document.getElementById("pitchReadout3").innerText = "-- Hz";
-      capturedPitches = [];
-    }
-
-    function initiatePerformanceSequence() {
-      let countdown = 5;
-      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-countdown";
-      recordBtn.disabled = true;
-
-      const countdownTimer = setInterval(() => {
-        recordBtn.innerText = `🚨 CAPTURE CORE ONLINE IN: ${countdown}s`;
-        countdown--;
-
-        if (countdown < 0) {
-          clearInterval(countdownTimer);
-          executeLiveAudioRecording();
-        }
-      }, 1000);
-    }
-
-    function executeLiveAudioRecording() {
-      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-live";
-      recordBtn.innerText = "📡 MONITOR ACTIVE // SAMPLING FREQUENCY METRICS";
-      
-      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-        .then(stream => {
-          sourceStream = stream;
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 2048;
-          const source = audioCtx.createMediaStreamSource(stream);
-          source.connect(analyser);
-          runTimelineCaptureLoop();
-        })
-        .catch(err => {
-          alert("Audio hardware link failed.");
-          resetHardwareState();
-        });
-    }
-
-    function runTimelineCaptureLoop() {
-      let runSeconds = 0;
-      trackingInterval = setInterval(() => {
-        runSeconds++;
-        let runningFrequency = autoDetectLivePitch();
-        
-        if (runSeconds === 30) {
-          capturedPitches[0] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (220 - 130) + 130);
-          document.getElementById("pitchReadout1").innerText = `${capturedPitches[0]} Hz`;
-        }
-        if (runSeconds === 45) {
-          capturedPitches[1] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (240 - 140) + 140);
-          document.getElementById("pitchReadout2").innerText = `${capturedPitches[1]} Hz`;
-        }
-        if (runSeconds === 75) {
-          clearInterval(trackingInterval);
-          capturedPitches[2] = runningFrequency > 0 ? runningFrequency : Math.floor(Math.random() * (210 - 135) + 135);
-          document.getElementById("pitchReadout3").innerText = `${capturedPitches[2]} Hz`;
-          transmitMetricsToServer();
-        }
-      }, 1000);
-    }
-
-    function autoDetectLivePitch() {
-      if (!analyser) return 0;
-      let buffer = new Float32Array(analyser.fftSize);
-      analyser.getFloatTimeDomainData(buffer);
-      let rms = 0;
-      for (let i = 0; i < buffer.length; i++) { rms += buffer[i] * buffer[i]; }
-      if (Math.sqrt(rms / buffer.length) < 0.01) return 0;
-      return Math.floor(Math.random() * (230 - 120) + 120);
-    }
-
-    function transmitMetricsToServer() {
-      recordBtn.innerText = "🛰️ STREAMING PACKETS TO CENTRAL ARCHIVE...";
-      const formData = new URLSearchParams();
-      formData.append("action", "streamPerformanceMetrics");
-      formData.append("email", selectedEmail);
-      formData.append("stageName", selectedName);
-      formData.append("pitch1", capturedPitches[0]);
-      formData.append("pitch2", capturedPitches[1]);
-      formData.append("pitch3", capturedPitches[2]);
-
-      fetch(WEB_APP_URL, {
+      fetch(CONFIG_API, {
         method: "POST",
-        body: formData,
+        body: params,
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       })
       .then(res => res.json())
       .then(data => {
-        alert(data.success ? "Telemetry packets processed cleanly by AI core." : "Pipeline processing error.");
-        resetHardwareState();
-        refreshDashboardData();
+        if(data.success) {
+          alert("Telemetry established successfully. Please approach the stage microphone.");
+          document.getElementById("registrationForm").reset();
+        } else {
+          alert("Signal error: " + data.message);
+        }
+        btn.innerText = "SUBMIT MATRIX SIGNUP";
+        btn.disabled = false;
       })
       .catch(err => {
-        alert("Satellite uplink offline.");
-        resetHardwareState();
+        alert("System timeout across the wire connection.");
+        btn.innerText = "SUBMIT MATRIX SIGNUP";
+        btn.disabled = false;
       });
     }
-
-    function resetHardwareState() {
-      if (trackingInterval) clearInterval(trackingInterval);
-      if (sourceStream) sourceStream.getTracks().forEach(t => t.stop());
-      if (audioCtx) audioCtx.close();
-      selectedEmail = ""; selectedName = "";
-      activeSingerDisplay.innerText = "NO OUTLAW SELECTED";
-      activeGenreDisplay.innerText = "Select a performer from the queue matrix...";
-      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
-      recordBtn.innerText = "[ STANDBY FOR TARGET CONFIGURATION ]";
-      recordBtn.disabled = true;
-    }
-
-    function triggerEndContest() {
-      if (!confirm("Decommission system telemetry tracking permanently for tonight?")) return;
-      const script = document.createElement("script");
-      script.src = `${WEB_APP_URL}?action=triggerContestClosure&callback=contestClosureConfirmation`;
-      document.body.appendChild(script);
-      document.body.removeChild(script);
-    }
-
-    window.contestClosureConfirmation = function(response) {
-      alert("Central sector data records purged and finalized.");
-      resetHardwareState();
-      refreshDashboardData();
-    };
-
-    window.onload = refreshDashboardData;
   </script>
 </body>
 </html>
