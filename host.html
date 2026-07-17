@@ -8,9 +8,12 @@
   <style>
     body {
       background-color: #2b170c;
-      background-image: linear-gradient(rgba(43, 23, 12, 0.85), rgba(28, 15, 8, 0.95)), 
-                        url('https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?q=80&w=1400');
+      /* 🪵 High-fidelity Pandav Tank rustic wood texture integration */
+      background-image: linear-gradient(rgba(43, 23, 12, 0.45), rgba(28, 15, 8, 0.6)), 
+                        url('https://images.unsplash.com/photo-1611024847487-e26176311a62?auto=format&fit=crop&q=80&w=1200');
       background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
       background-attachment: fixed;
       font-family: Arial, Helvetica, sans-serif;
       color: #2b1a0d;
@@ -22,7 +25,7 @@
       background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
       background-size: 12px 12px;
       clip-path: polygon(
-        0% 1.5%, 4% 0%, 9% 2%, 13% 0.5%, 18% 2.5%, 22% 0.5%, 27% 2%, 31% 0%, 36% 1.5%, 40% 0%, 45% 2%, 50% 0.5%, 54% 2.5%, 59% 0.5%, 63% 2%, 68% 0%, 72% 1.5%, 77% 0.5%, 81% 2.5%, 86% 0%, 90% 2%, 95% 0.5%, 98% 2.5%, 100% 0.5.,
+        0% 1.5%, 4% 0%, 9% 2%, 13% 0.5%, 18% 2.5%, 22% 0.5%, 27% 2%, 31% 0%, 36% 1.5%, 40% 0%, 45% 2%, 50% 0.5%, 54% 2.5%, 59% 0.5%, 63% 2%, 68% 0%, 72% 1.5%, 77% 0.5%, 81% 2.5%, 86% 0%, 90% 2%, 95% 0.5%, 98% 2.5%, 100% 0.5%,
         100% 98.5%, 96% 100%, 91% 97.5%, 87% 99.5%, 82% 97%, 78% 99.5%, 73% 97.5%, 69% 100%, 64% 97.5%, 60% 99.5%, 55% 97%, 51% 99.5%, 46% 97.5%, 42% 100%, 37% 97.5%, 33% 99.5%, 28% 97%, 24% 99.5%, 19% 97.5%, 15% 100%, 10% 97%, 6% 99%, 3% 97.5%, 0% 99.5%
       );
       padding: 2.5rem;
@@ -154,7 +157,7 @@
         </div>
       </div>
 
-      <!-- Outlaw Roster Card (Condensed Edition with Custom Scrolldown) -->
+      <!-- Outlaw Roster Card (Condensed Edition with Custom Scroll) -->
       <div id="sideQueuePaper" class="parchment-container min-h-[550px] flex flex-col">
         <div class="flex justify-between items-center border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
@@ -171,6 +174,7 @@
   </div>
 
   <script>
+    // ✅ Maintained your verified tracking endpoint link
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
     let selectedEmail = "", selectedName = "", trackingInterval = null;
     let audioCtx = null, analyser = null, sourceStream = null, capturedPitches = [];
@@ -203,7 +207,7 @@
         const item = document.createElement("div");
         const parsed = singer.status.includes("Analyzed");
         
-        // Highly condensed layout structure using grid tracking
+        // Compact single-row layout configuration
         item.className = `p-2 rounded border transition-all flex items-center justify-between text-xs ${
           parsed ? "bg-[#ebd9b5] border-[#c2aa80] opacity-40" : "bg-white border-[#a68463]"
         }`;
@@ -220,7 +224,6 @@
               ACTIVATE
             </button>
           `;
-          // Attach row selection click strictly to the button action trigger
           item.querySelector("button").onclick = (e) => {
             e.stopPropagation();
             loadContestantIntoScanner(singer.email, singer.stageName, singer.genre);
