@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      /* Procedural High-Fidelity Wood Grain Engine */
       background-color: #735035;
       background-image: 
         repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 0, 0, 0.08) 50px, rgba(0, 0, 0, 0.08) 100px),
@@ -65,6 +64,7 @@
       border: 1px solid #4a3120;
     }
 
+    /* 🟢 Standard Ready Mode Style Configuration */
     .btn-ready {
       background-color: #10b981 !important;
       color: white !important;
@@ -76,26 +76,27 @@
       filter: brightness(1.1);
     }
 
+    /* 🚨 5-Second Countdown Blinking Configuration */
     .btn-countdown {
-      background-color: #d97706 !important;
+      background-color: #dc2626 !important;
       color: white !important;
-      border-bottom: 4px solid #92400e !important;
+      border-bottom: 4px solid #991b1b !important;
       font-weight: bold;
       cursor: not-allowed !important;
+      animation: alertBlink 0.5s infinite steps(2, start);
     }
 
+    @keyframes alertBlink {
+      to { visibility: hidden; }
+    }
+
+    /* 🛑 Active Solid Recording Mode Configuration */
     .btn-live {
       background-color: #dc2626 !important;
       color: white !important;
       border-bottom: 4px solid #991b1b !important;
       font-weight: bold;
-      animation: buttonPulse 1.2s infinite ease-in-out;
       cursor: not-allowed !important;
-    }
-
-    @keyframes buttonPulse {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.2); }
     }
   </style>
 </head>
@@ -103,6 +104,7 @@
 
   <div class="max-w-6xl mx-auto space-y-8">
     
+    <!-- Top Mainframe Bar -->
     <div id="headerPaper" class="flex flex-col md:flex-row justify-between items-center parchment-container">
       <div>
         <h1 class="text-3xl font-black tracking-tighter text-[#2b1a0d] uppercase">COWBOY MAINFRAME</h1>
@@ -115,18 +117,22 @@
       </div>
     </div>
 
+    <!-- Active Grid Interface -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       
+      <!-- Stage Telemetry Core Deck Card -->
       <div id="mainDeckPaper" class="lg:col-span-2 flex flex-col justify-between min-h-[550px] parchment-container">
         <div>
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">Live Audio Input Array</h2>
           
+          <!-- Loaded Target Segment -->
           <div class="inner-dark-card p-5">
             <span class="text-[9px] tracking-widest uppercase font-black text-[#2b1a0d] bg-[#f7ebd3] px-2 py-0.5 rounded shadow-sm">Target Tracking Node</span>
             <div id="activeSingerDisplay" class="text-3xl font-black text-white mt-3 tracking-tight uppercase">NO OUTLAW SELECTED</div>
             <div id="activeGenreDisplay" class="text-xs text-[#ebd9b5] font-bold italic mt-1">Select a performer from the side configuration panel...</div>
           </div>
 
+          <!-- Diagnostic Checkpoint Arrays -->
           <div class="grid grid-cols-3 gap-4 mt-6 text-center">
             <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
               <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 1 (30s)</div>
@@ -143,13 +149,15 @@
           </div>
         </div>
 
+        <!-- Hardware Switch Trigger Layout -->
         <div class="mt-8">
           <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
-            [ STANDBY FOR TARGET CONFIGURATION ]
+            WAITING ON TARGET SELECTION
           </button>
         </div>
       </div>
 
+      <!-- Outlaw Roster Card -->
       <div id="sideQueuePaper" class="parchment-container min-h-[550px] flex flex-col">
         <div class="flex justify-between items-center border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
@@ -230,7 +238,7 @@
       activeGenreDisplay.innerText = `FREQ SECTOR // ${genre.toUpperCase()}`;
       
       recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready";
-      recordBtn.innerText = "⚡ RUN TELEMETRY INTERFACE LOG";
+      recordBtn.innerText = "READY TO LOCK SIGNATURE";
       recordBtn.disabled = false;
 
       document.getElementById("pitchReadout1").innerText = "-- Hz";
@@ -246,11 +254,11 @@
       headerPaper.classList.add("parchment-countdown-state");
       sideQueuePaper.classList.add("parchment-countdown-state");
       
+      // Starts the rapid blinking red state framework
       recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-countdown";
-      recordBtn.disabled = true;
 
       const countdownTimer = setInterval(() => {
-        recordBtn.innerText = `🚨 SCANNER HOT IN: ${countdown}s`;
+        recordBtn.innerText = `ACQUIRING LINK... ${countdown}s`;
         countdown--;
 
         if (countdown < 0) {
@@ -269,8 +277,9 @@
       headerPaper.classList.add("parchment-recording-state");
       sideQueuePaper.classList.add("parchment-recording-state");
       
+      // Drops blinking animation and locks into solid dark red for active recording capture
       recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-live";
-      recordBtn.innerText = "📡 MONITOR LIVE // CAPTURING SOUND CHECKPOINTS";
+      recordBtn.innerText = "CAPTURE WAVE ACTIVE // DATA STREAM INTAKE";
       
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         .then(stream => {
@@ -322,7 +331,7 @@
     }
 
     function transmitMetricsToServer() {
-      recordBtn.innerText = "🛰️ STREAMING PACKETS TO CENTRAL ARCHIVE...";
+      recordBtn.innerText = "卫星链路发送中...";
       const formData = new URLSearchParams();
       formData.append("action", "streamPerformanceMetrics");
       formData.append("email", selectedEmail);
@@ -361,7 +370,7 @@
       activeSingerDisplay.innerText = "NO OUTLAW SELECTED";
       activeGenreDisplay.innerText = "Select a performer from the side configuration panel...";
       recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
-      recordBtn.innerText = "[ STANDBY FOR TARGET CONFIGURATION ]";
+      recordBtn.innerText = "WAITING ON TARGET SELECTION";
       recordBtn.disabled = true;
     }
 
