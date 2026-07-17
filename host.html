@@ -331,7 +331,7 @@
     }
 
     function transmitMetricsToServer() {
-      recordBtn.innerText = "卫星链路发送中...";
+      recordBtn.innerText = "STREAMING PACKETS TO CENTRAL ARCHIVE...";
       const formData = new URLSearchParams();
       formData.append("action", "streamPerformanceMetrics");
       formData.append("email", selectedEmail);
