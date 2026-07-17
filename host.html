@@ -169,7 +169,7 @@
   </div>
 
   <script>
-    // ⚙️ INJECT YOUR EXACT GOOGLE APPS SCRIPT WEB APP URL HERE:
+    // ⚙️ INJECT YOUR COPIED GOOGLE WEB APP EXEC URL HERE:
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
 
     let selectedEmail = "", selectedName = "", trackingInterval = null;
@@ -183,29 +183,37 @@
     const headerPaper = document.getElementById("headerPaper");
     const sideQueuePaper = document.getElementById("sideQueuePaper");
 
-    // 📡 JSONP Architecture: Bypasses browser CORS blocking via native script injection
+    // Unified Modern Fetch Request Data Engine
     function refreshDashboardData() {
-      const script = document.createElement("script");
-      // Appends random cache-buster timestamp parameter to prevent browser file caching
-      script.src = `${WEB_APP_URL}?action=getHostData&callback=renderDashboard&ts=${new Date().getTime()}`;
-      document.body.appendChild(script);
+      const queueContainer = document.getElementById("queueContainer");
       
-      // Clean up the script tag from DOM right after execution
-      script.onload = function() {
-        document.body.removeChild(script);
-      };
+      fetch(`${WEB_APP_URL}?action=getHostData`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success && data.payload) {
+            renderDashboard(data.payload);
+          } else {
+            queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
+          }
+        })
+        .catch(err => {
+          console.error("Link Failure:", err);
+          queueContainer.innerHTML = `<p class="text-xs text-red-700 font-bold italic text-center py-8">Uplink drop caught.</p>`;
+        });
     }
 
-    window.renderDashboard = function(response) {
+    window.renderDashboard = function(payload) {
       const queueContainer = document.getElementById("queueContainer");
       queueContainer.innerHTML = "";
 
-      if (!response || !response.success || !response.payload || response.payload.queue.length === 0) {
+      const queue = payload.queue || [];
+
+      if (queue.length === 0) {
         queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
         return;
       }
 
-      response.payload.queue.forEach(singer => {
+      queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.hasSung === true; 
         
@@ -378,20 +386,16 @@
 
     function triggerEndContest() {
       if (!confirm("Decommission system telemetry tracking permanently for tonight?")) return;
-      const script = document.createElement("script");
-      script.src = `${WEB_APP_URL}?action=triggerContestClosure&callback=contestClosureConfirmation`;
-      document.body.appendChild(script);
       
-      script.onload = function() {
-        document.body.removeChild(script);
-      };
+      fetch(`${WEB_APP_URL}?action=triggerContestClosure`)
+        .then(res => res.json())
+        .then(data => {
+          alert("Central sector data records purged and finalized.");
+          resetHardwareState();
+          refreshDashboardData();
+        })
+        .catch(err => alert("Closure execution drop caught."));
     }
-
-    window.contestClosureConfirmation = function(response) {
-      alert("Central sector data records purged and finalized.");
-      resetHardwareState();
-      refreshDashboardData();
-    };
 
     window.onload = refreshDashboardData;
   </script>
