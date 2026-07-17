@@ -3,128 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sing Your Heart Out! - Host Control Desk</title>
+  <title>Sing Your Heart Out! - Cowboy Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #8c5835;
-      background-image: linear-gradient(rgba(140, 88, 53, 0.9), rgba(115, 69, 36, 0.97)), 
-                        url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1200');
+      /* 🪵 Outer Framing: Deep vertical rustic wood panel look from your image */
+      background-color: #3d2111;
+      background-image: linear-gradient(rgba(43, 23, 12, 0.85), rgba(28, 15, 8, 0.95)), 
+                        url('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=1200');
       background-size: cover;
+      background-attachment: fixed;
       color: #2b1a0d;
       font-family: Arial, Helvetica, sans-serif;
     }
     
-    /* ⚡ Clean Old Paper Card Content Box with Neon Purple Highlight Loop */
-    .parchment-mainframe {
-      background-color: #f7ebd3;
-      border: 4px solid #8c5835;
-      outline: 3px solid #b624ff;
-      box-shadow: 0 0 20px #aa00ff, inset 0 0 10px rgba(170, 0, 255, 0.15);
+    /* 📜 The Parchment Scroll Layout Card from your reference image */
+    .parchment-card {
+      background-color: #fcefd2; /* Warm, aged old-paper tone */
+      background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
+      background-size: 8px 8px;
+      border: 3px solid #6b4423; /* Darker tooled wood edge */
+      border-radius: 6px;
+      position: relative;
+      
+      /* ⚡ Cyberpunk Integration: Sharp Neon Purple light border loop wrapped directly around the wood edge */
+      outline: 4px solid #b624ff;
+      box-shadow: 0 0 20px #aa00ff, inset 0 0 15px rgba(170, 0, 255, 0.1);
     }
 
-    /* 🟢 Microphone Armed State */
+    /* Gritty screw/bolt head accents in the corners mimicking pinned parchment */
+    .parchment-card::before, .parchment-card::after {
+      content: "★";
+      position: absolute;
+      font-size: 10px;
+      color: #8c6239;
+      opacity: 0.6;
+    }
+    .parchment-card::before { top: 6px; left: 8px; }
+    .parchment-card::after { top: 6px; right: 8px; }
+
+    /* 🟢 Mic Armed Button */
     .btn-ready {
       background-color: #10b981 !important;
       color: white !important;
       border-bottom: 4px solid #047857 !important;
+      font-weight: bold;
       transition: all 0.2s ease-in-out;
     }
     .btn-ready:hover {
       filter: brightness(1.1);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
     }
 
-    /* 🟡 Microphone Countdown Mode */
+    /* 🟡 Mic Countdown state */
     .btn-countdown {
       background-color: #d97706 !important;
       color: white !important;
       border-bottom: 4px solid #92400e !important;
+      font-weight: bold;
       cursor: not-allowed !important;
     }
 
-    /* 🔴 Microphone Active Recording (Pulsing Laser Frame Override) */
+    /* 🔴 Mic Hot Recording state */
     .btn-live {
       background-color: #dc2626 !important;
       color: white !important;
       border-bottom: 4px solid #991b1b !important;
+      font-weight: bold;
       animation: alertPulse 1.4s infinite ease-in-out;
       cursor: not-allowed !important;
     }
 
     @keyframes alertPulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.85; }
-      100% { opacity: 1; }
+      0% { box-shadow: 0 0 10px #dc2626; }
+      50% { box-shadow: 0 0 25px #ef4444; }
+      100% { box-shadow: 0 0 10px #dc2626; }
     }
   </style>
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-6xl mx-auto">
-    <!-- Main Command Banner -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 p-6 rounded-xl relative gap-4 parchment-mainframe">
+    <!-- Main Header Panel (Styled like the upper wood console banner) -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 p-6 rounded relative gap-4 parchment-card">
       <div>
-        <h1 class="text-3xl font-black tracking-tight text-[#2b1a0d] uppercase">COWBOY MAINFRAME</h1>
-        <p class="text-xs text-[#aa00ff] font-bold uppercase tracking-widest mt-1">Live Telemetry Terminal // Node.01</p>
+        <h1 class="text-3xl font-black tracking-tighter text-[#2b1a0d] uppercase" style="letter-spacing: -0.5px;">COWBOY MAINFRAME</h1>
+        <p class="text-xs text-[#aa00ff] font-bold uppercase tracking-widest mt-0.5">Live Telemetry Terminal // Node.01</p>
       </div>
       <div>
-        <button onclick="triggerEndContest()" class="px-6 py-3 bg-[#aa00ff] hover:bg-[#b624ff] text-white font-black rounded-lg transition-all text-xs uppercase tracking-widest border-b-4 border-[#7b00b8] shadow-md">
+        <button onclick="triggerEndContest()" class="px-6 py-3 bg-[#aa00ff] hover:bg-[#b624ff] text-white font-bold rounded border-b-4 border-[#7b00b8] text-xs uppercase tracking-wider transition-all shadow-md">
           🏆 COMPLETE CONTEST OVERRIDE
         </button>
       </div>
     </div>
 
-    <!-- Active Interface Workspace -->
+    <!-- Active Grid Controls -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
-      <!-- Stage Scanner Frame -->
-      <div class="lg:col-span-2 p-6 rounded-xl flex flex-col justify-between min-h-[420px] parchment-mainframe">
+      <!-- Left Area: Main Stage Capture Node -->
+      <div class="lg:col-span-2 p-6 flex flex-col justify-between min-h-[440px] parchment-card">
         <div>
-          <h2 class="text-xs font-black tracking-widest text-[#a68463] uppercase border-b-2 border-solid border-[#e2d0b5] pb-2 mb-4">Live Audio Telemetry Deck</h2>
+          <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase border-b-2 border-dashed border-[#d1be9b] pb-2 mb-4">Live Audio Telemetry Deck</h2>
           
-          <!-- Selected Singer Display Profile -->
-          <div class="bg-[#f0e0c1] p-5 rounded-lg border-2 border-[#a68463] mb-6">
-            <span class="text-[10px] tracking-widest uppercase font-bold text-white bg-[#aa00ff] px-2 py-0.5 rounded">Active Target Target</span>
-            <div id="activeSingerDisplay" class="text-3xl font-black text-[#2b1a0d] mt-3 tracking-tight">NO OUTLAW SELECTED</div>
-            <div id="activeGenreDisplay" class="text-xs text-[#a68463] font-bold italic mt-1">Select a performer from the deployment matrix queue...</div>
+          <!-- Selected Outlaw Target Banner -->
+          <div class="bg-[#ebd9b5] p-5 rounded border border-[#c2aa80] mb-6">
+            <span class="text-[9px] tracking-widest uppercase font-black text-white bg-[#aa00ff] px-2 py-0.5 rounded shadow-sm">Active Target</span>
+            <div id="activeSingerDisplay" class="text-3xl font-black text-[#2b1a0d] mt-3 tracking-tight uppercase">NO OUTLAW SELECTED</div>
+            <div id="activeGenreDisplay" class="text-xs text-[#7a5535] font-bold italic mt-1">Select a performer from the queue matrix...</div>
           </div>
 
-          <!-- Sensor Readouts Array -->
+          <!-- Dynamic Sensor Node Readouts -->
           <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
-              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 1 (30s)</div>
+            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
+              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 1 (30s)</div>
               <div id="pitchReadout1" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
-            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
-              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 2 (45s)</div>
+            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
+              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 2 (45s)</div>
               <div id="pitchReadout2" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
-            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
-              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 3 (75s)</div>
+            <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
+              <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 3 (75s)</div>
               <div id="pitchReadout3" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
           </div>
         </div>
 
-        <!-- Hot Switch Trigger -->
+        <!-- Microphone Execution Switch -->
         <div>
-          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
+          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
             [ STANDBY FOR TARGET CONFIGURATION ]
           </button>
         </div>
       </div>
 
-      <!-- Outlaw Roster Control Card -->
-      <div class="p-6 rounded-xl flex flex-col justify-between parchment-mainframe">
+      <!-- Right Area: Outlaw Roster Side Panel -->
+      <div class="p-6 flex flex-col justify-between parchment-card">
         <div>
-          <div class="flex justify-between items-center border-b-2 border-solid border-[#e2d0b5] pb-2 mb-4">
-            <h2 class="text-xs font-black tracking-widest text-[#a68463] uppercase">Outlaw Queue Matrix</h2>
+          <div class="flex justify-between items-center border-b-2 border-dashed border-[#d1be9b] pb-2 mb-4">
+            <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
             <button onclick="refreshDashboardData()" class="text-xs text-[#aa00ff] font-black tracking-wider hover:underline">🔄 PING ROSTER</button>
           </div>
           
           <div id="queueContainer" class="space-y-3 max-h-[420px] overflow-y-auto pr-1">
-            <p class="text-xs text-[#a68463] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
+            <p class="text-xs text-[#7a5535] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
           </div>
         </div>
       </div>
@@ -153,24 +175,24 @@
       queueContainer.innerHTML = "";
 
       if (!response.success || response.payload.queue.length === 0) {
-        queueContainer.innerHTML = `<p class="text-xs text-[#a68463] font-bold italic text-center py-8">No active target data logs running.</p>`;
+        queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in queue.</p>`;
         return;
       }
 
       response.payload.queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.status.includes("Analyzed");
-        item.className = `p-3 rounded-lg border-2 transition-all cursor-pointer flex justify-between items-center ${
-          parsed ? "bg-[#eeddb8] border-[#cbb393] opacity-50" : "bg-white border-[#a68463] hover:border-[#aa00ff]"
+        item.className = `p-3 rounded border-2 transition-all cursor-pointer flex justify-between items-center ${
+          parsed ? "bg-[#e3d3b3] border-[#b09b76] opacity-50" : "bg-white border-[#c2aa80] hover:border-[#aa00ff]"
         }`;
         
         item.innerHTML = `
           <div>
-            <div class="font-black text-[#2b1a0d] text-sm">${singer.stageName}</div>
-            <div class="text-[10px] text-[#a68463] font-bold mt-0.5">${singer.genre}</div>
+            <div class="font-black text-[#2b1a0d] text-sm tracking-tight">${singer.stageName}</div>
+            <div class="text-[10px] text-[#7a5535] font-bold mt-0.5">${singer.genre}</div>
           </div>
-          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider font-bold border ${
-            parsed ? "bg-[#ebd3f7] text-[#9317db] border-[#cfacf2]" : "bg-[#f2dfb8] text-[#2b1a0d] border-[#a68463]"
+          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider font-black border ${
+            parsed ? "bg-[#ebd3f7] text-[#9317db] border-[#cfacf2]" : "bg-[#ebd9b5] text-[#2b1a0d] border-[#c2aa80]"
           }">${singer.status.toUpperCase()}</span>
         `;
 
@@ -187,7 +209,7 @@
       activeSingerDisplay.innerText = name.toUpperCase();
       activeGenreDisplay.innerText = `FREQ SECTOR // ${genre.toUpperCase()}`;
       
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready";
+      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready";
       recordBtn.innerText = "⚡ RUN TELEMETRY INTERFACE LOG";
       recordBtn.disabled = false;
 
@@ -199,7 +221,7 @@
 
     function initiatePerformanceSequence() {
       let countdown = 5;
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-countdown";
+      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-countdown";
       recordBtn.disabled = true;
 
       const countdownTimer = setInterval(() => {
@@ -214,7 +236,7 @@
     }
 
     function executeLiveAudioRecording() {
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-live";
+      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-live";
       recordBtn.innerText = "📡 MONITOR ACTIVE // SAMPLING FREQUENCY METRICS";
       
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -228,7 +250,7 @@
           runTimelineCaptureLoop();
         })
         .catch(err => {
-          alert("Audio hardware connection fault.");
+          alert("Audio hardware link failed.");
           resetHardwareState();
         });
     }
@@ -299,8 +321,8 @@
       if (audioCtx) audioCtx.close();
       selectedEmail = ""; selectedName = "";
       activeSingerDisplay.innerText = "NO OUTLAW SELECTED";
-      activeGenreDisplay.innerText = "Select a performer from the deployment matrix queue...";
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
+      activeGenreDisplay.innerText = "Select a performer from the queue matrix...";
+      recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
       recordBtn.innerText = "[ STANDBY FOR TARGET CONFIGURATION ]";
       recordBtn.disabled = true;
     }
