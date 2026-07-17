@@ -169,7 +169,9 @@
   </div>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
+    // ⚙️ INJECT YOUR EXACT GOOGLE APPS SCRIPT WEB APP URL HERE:
+    const WEB_APP_URL = "https://script.google.com/macros/s/1UcnVpR8GL9wLo9rQ-zt0ml7nTWrLBpriGlM3F1xOnAo/exec"; 
+
     let selectedEmail = "", selectedName = "", trackingInterval = null;
     let audioCtx = null, analyser = null, sourceStream = null, capturedPitches = [];
 
@@ -182,22 +184,35 @@
     const sideQueuePaper = document.getElementById("sideQueuePaper");
 
     function refreshDashboardData() {
-      const script = document.createElement("script");
-      script.src = `${WEB_APP_URL}?action=getHostData&callback=renderDashboard`;
-      document.body.appendChild(script);
-      document.body.removeChild(script);
+      const queueContainer = document.getElementById("queueContainer");
+      
+      fetch(`${WEB_APP_URL}?action=getHostData`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success && data.payload) {
+            renderDashboard(data.payload);
+          } else {
+            queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
+          }
+        })
+        .catch(err => {
+          console.error("Link Failure:", err);
+          queueContainer.innerHTML = `<p class="text-xs text-red-700 font-bold italic text-center py-8">Uplink drop caught.</p>`;
+        });
     }
 
-    window.renderDashboard = function(response) {
+    window.renderDashboard = function(payload) {
       const queueContainer = document.getElementById("queueContainer");
       queueContainer.innerHTML = "";
 
-      if (!response.success || response.payload.queue.length === 0) {
+      const queue = payload.queue || [];
+
+      if (queue.length === 0) {
         queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
         return;
       }
 
-      response.payload.queue.forEach(singer => {
+      queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.hasSung === true; 
         
@@ -370,17 +385,16 @@
 
     function triggerEndContest() {
       if (!confirm("Decommission system telemetry tracking permanently for tonight?")) return;
-      const script = document.createElement("script");
-      script.src = `${WEB_APP_URL}?action=triggerContestClosure&callback=contestClosureConfirmation`;
-      document.body.appendChild(script);
-      document.body.removeChild(script);
+      
+      fetch(`${WEB_APP_URL}?action=triggerContestClosure`)
+        .then(res => res.json())
+        .then(data => {
+          alert("Central sector data records purged and finalized.");
+          resetHardwareState();
+          refreshDashboardData();
+        })
+        .catch(err => alert("Closure execution drop caught."));
     }
-
-    window.contestClosureConfirmation = function(response) {
-      alert("Central sector data records purged and finalized.");
-      resetHardwareState();
-      refreshDashboardData();
-    };
 
     window.onload = refreshDashboardData;
   </script>
