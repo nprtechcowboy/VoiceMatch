@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      /* 🪵 Background: Realistic vertical dark wood planks */
       background-color: #2b170c;
       background-image: linear-gradient(rgba(43, 23, 12, 0.8), rgba(28, 15, 8, 0.9)), 
                         url('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=1200');
@@ -17,26 +16,16 @@
       color: #2b1a0d;
     }
     
-    /* 📜 Jagged Modern CSS Parchment Sheet Wrapper */
     .parchment-container {
       background-color: #f7ebd3;
       background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
       background-size: 12px 12px;
-      /* Procedural jagged ripped edge generation via clip-path polygon matrix */
       clip-path: polygon(
         0% 2%, 3% 0%, 7% 3%, 11% 1%, 15% 4%, 20% 1%, 24% 3%, 28% 0%, 33% 2%, 38% 0%, 42% 3%, 47% 1%, 52% 4%, 56% 1%, 61% 3%, 65% 0%, 70% 2%, 75% 1%, 79% 4%, 84% 0%, 88% 3%, 93% 1%, 97% 4%, 100% 1%,
         100% 98%, 96% 100%, 92% 97%, 88% 99%, 83% 96%, 79% 99%, 75% 97%, 71% 100%, 66% 97%, 62% 99%, 57% 96%, 53% 99%, 48% 97%, 44% 100%, 39% 97%, 35% 99%, 30% 96%, 26% 99%, 21% 97%, 17% 100%, 12% 96%, 8% 98%, 4% 96%, 0% 99%
       );
       padding: 3rem 2.5rem;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    /* 🗃️ Dark Inner Info Panels (Matching the Louvale Motors sub-cards style) */
-    .inner-dark-card {
-      background-color: #2b1b11;
-      color: #f7ebd3;
-      border-radius: 4px;
-      border: 1px solid #4a3120;
     }
 
     input, select {
@@ -58,7 +47,6 @@
   <div class="w-full max-w-xl">
     <div class="parchment-container">
       
-      <!-- Top Branding Section -->
       <div class="text-center mb-8 border-b-2 border-solid border-[#a68463] pb-6">
         <h1 class="text-4xl font-black tracking-tight uppercase text-[#2b1a0d]">
           SING YOUR HEART OUT
@@ -68,7 +56,6 @@
         </p>
       </div>
 
-      <!-- Input Forms Layout -->
       <form id="registrationForm" onsubmit="submitOutlawSignup(event)" class="space-y-6">
         <div>
           <label class="block text-xs font-black uppercase tracking-widest text-[#2b1a0d] mb-2">🤠 PERFORMER STAGE HANDLE</label>
@@ -94,14 +81,15 @@
           </select>
         </div>
 
-        <div class="flex items-center gap-3 bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
-          <input type="checkbox" id="contestOptIn" checked class="w-5 h-5 rounded cursor-pointer accent-[#8c5835]">
-          <label for="contestOptIn" class="text-xs text-[#2b1a0d] font-bold leading-tight">
-            I AUTHORIZE LIVE AUDIO TELEMETRY CAPTURE AND CONSENT TO BROADCASTING MY SYSTEM METRICS.
+        <!-- 🔒 Mandatory Consent Framework Grid Component -->
+        <div class="flex items-start gap-3 bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
+          <!-- Adding the 'required' tag here acts as a strict programmatic block -->
+          <input type="checkbox" id="contestOptIn" required class="w-5 h-5 mt-0.5 rounded cursor-pointer accent-[#8c5835]">
+          <label for="contestOptIn" class="text-xs text-[#2b1a0d] font-black leading-tight cursor-pointer select-none">
+            I AGREE TO THE CONTEST CONSTRAINTS. I AUTHORIZE LIVE AUDIO TELEMETRY CAPTURE AND CONSENT TO COUPLING MY VOICE METRICS TO THE SYSTEM MAINFRAME.
           </label>
         </div>
 
-        <!-- Classic Styled Frontier Button -->
         <button type="submit" class="w-full py-4 rounded font-black uppercase tracking-wider text-white bg-[#7a4b29] hover:bg-[#613b1f] active:transform active:scale-[0.99] transition-all duration-150 border-b-4 border-[#4d2f19] text-sm shadow-md">
           SUBMIT MATRIX SIGNUP
         </button>
@@ -111,10 +99,18 @@
   </div>
 
   <script>
-    const CONFIG_API = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec";
+    const CONFIG_API = "https://script.google.com/macros/s/AKfycbwPqOswk64jF86n02YF8J6Uj3Wc1L78p_2rE5W0xX0/exec";
 
     function submitOutlawSignup(e) {
       e.preventDefault();
+      
+      // Secondary absolute validation check
+      const consentBox = document.getElementById("contestOptIn");
+      if (!consentBox.checked) {
+        alert("System Override: You must authorize voice telemetry capture to register.");
+        return;
+      }
+
       const btn = e.target.querySelector('button');
       btn.innerText = "SAVING TELEMETRY DATA...";
       btn.disabled = true;
@@ -124,7 +120,7 @@
       params.append("stageName", document.getElementById("stageName").value);
       params.append("email", document.getElementById("email").value);
       params.append("genre", document.getElementById("genre").value);
-      params.append("contestOptIn", document.getElementById("contestOptIn").checked ? "Yes" : "No");
+      params.append("contestOptIn", "Yes"); // Forced as 'Yes' since checkbox validation passed
 
       fetch(CONFIG_API, {
         method: "POST",
@@ -134,7 +130,7 @@
       .then(res => res.json())
       .then(data => {
         if(data.success) {
-          alert("Telemetry established successfully. Please approach the stage microphone.");
+          alert("Telemetry established! Let the host know when you're stepping up to the mic so they can jack your voice into the mainframe.");
           document.getElementById("registrationForm").reset();
         } else {
           alert("Signal error: " + data.message);
