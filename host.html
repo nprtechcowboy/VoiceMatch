@@ -7,19 +7,19 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #2b170c;
-      /* 🪵 High-fidelity Pandav Tank rustic wood texture integration */
-      background-image: linear-gradient(rgba(43, 23, 12, 0.45), rgba(28, 15, 8, 0.6)), 
-                        url('https://images.unsplash.com/photo-1611024847487-e26176311a62?auto=format&fit=crop&q=80&w=1200');
+      /* Procedural High-Fidelity Wood Grain Engine */
+      background-color: #735035;
+      background-image: 
+        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 0, 0, 0.08) 50px, rgba(0, 0, 0, 0.08) 100px),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+        linear-gradient(rgba(255,255,255,0.05), rgba(0,0,0,0.25)),
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 60%);
       background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
       background-attachment: fixed;
       font-family: Arial, Helvetica, sans-serif;
       color: #2b1a0d;
     }
     
-    /* 📜 Jagged CSS Procedural Ripped Parchment Box Card */
     .parchment-container {
       background-color: #f7ebd3;
       background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
@@ -33,7 +33,6 @@
       transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Custom scrollbar handling for the condensed queue */
     .custom-queue-scroll::-webkit-scrollbar {
       width: 6px;
     }
@@ -104,7 +103,6 @@
 
   <div class="max-w-6xl mx-auto space-y-8">
     
-    <!-- Top Mainframe Bar -->
     <div id="headerPaper" class="flex flex-col md:flex-row justify-between items-center parchment-container">
       <div>
         <h1 class="text-3xl font-black tracking-tighter text-[#2b1a0d] uppercase">COWBOY MAINFRAME</h1>
@@ -117,22 +115,18 @@
       </div>
     </div>
 
-    <!-- Active Grid Interface -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       
-      <!-- Stage Telemetry Core Deck Card -->
       <div id="mainDeckPaper" class="lg:col-span-2 flex flex-col justify-between min-h-[550px] parchment-container">
         <div>
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">Live Audio Input Array</h2>
           
-          <!-- Loaded Target Segment -->
           <div class="inner-dark-card p-5">
             <span class="text-[9px] tracking-widest uppercase font-black text-[#2b1a0d] bg-[#f7ebd3] px-2 py-0.5 rounded shadow-sm">Target Tracking Node</span>
             <div id="activeSingerDisplay" class="text-3xl font-black text-white mt-3 tracking-tight uppercase">NO OUTLAW SELECTED</div>
             <div id="activeGenreDisplay" class="text-xs text-[#ebd9b5] font-bold italic mt-1">Select a performer from the side configuration panel...</div>
           </div>
 
-          <!-- Diagnostic Checkpoint Arrays -->
           <div class="grid grid-cols-3 gap-4 mt-6 text-center">
             <div class="bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
               <div class="text-[10px] font-black text-[#7a5535] uppercase tracking-wider">Node 1 (30s)</div>
@@ -149,7 +143,6 @@
           </div>
         </div>
 
-        <!-- Hardware Switch Trigger -->
         <div class="mt-8">
           <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
             [ STANDBY FOR TARGET CONFIGURATION ]
@@ -157,14 +150,12 @@
         </div>
       </div>
 
-      <!-- Outlaw Roster Card (Condensed Edition with Custom Scroll) -->
       <div id="sideQueuePaper" class="parchment-container min-h-[550px] flex flex-col">
         <div class="flex justify-between items-center border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
           <button onclick="refreshDashboardData()" class="text-xs text-[#7a4b29] font-black tracking-wider hover:underline">🔄 PING</button>
         </div>
         
-        <!-- Locked Scroll Container Layer -->
         <div id="queueContainer" class="space-y-2 max-h-[440px] overflow-y-auto pr-1 flex-1 custom-queue-scroll">
           <p class="text-xs text-[#7a5535] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
         </div>
@@ -174,7 +165,6 @@
   </div>
 
   <script>
-    // ✅ Maintained your verified tracking endpoint link
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxw2QK_grUqX_ng90PAbOIVK_v9T_fPc39rgbr60hfWAco7UYLbNNzucAJaWUNXZerr/exec"; 
     let selectedEmail = "", selectedName = "", trackingInterval = null;
     let audioCtx = null, analyser = null, sourceStream = null, capturedPitches = [];
@@ -207,7 +197,6 @@
         const item = document.createElement("div");
         const parsed = singer.status.includes("Analyzed");
         
-        // Compact single-row layout configuration
         item.className = `p-2 rounded border transition-all flex items-center justify-between text-xs ${
           parsed ? "bg-[#ebd9b5] border-[#c2aa80] opacity-40" : "bg-white border-[#a68463]"
         }`;
