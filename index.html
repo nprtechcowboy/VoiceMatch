@@ -83,7 +83,6 @@
 
         <!-- 🔒 Mandatory Consent Framework Grid Component -->
         <div class="flex items-start gap-3 bg-[#ebd9b5] p-4 rounded border border-[#c2aa80]">
-          <!-- Adding the 'required' tag here acts as a strict programmatic block -->
           <input type="checkbox" id="contestOptIn" required class="w-5 h-5 mt-0.5 rounded cursor-pointer accent-[#8c5835]">
           <label for="contestOptIn" class="text-xs text-[#2b1a0d] font-black leading-tight cursor-pointer select-none">
             I AGREE TO THE CONTEST CONSTRAINTS. I AUTHORIZE LIVE AUDIO TELEMETRY CAPTURE AND CONSENT TO COUPLING MY VOICE METRICS TO THE SYSTEM MAINFRAME.
@@ -104,7 +103,6 @@
     function submitOutlawSignup(e) {
       e.preventDefault();
       
-      // Secondary absolute validation check
       const consentBox = document.getElementById("contestOptIn");
       if (!consentBox.checked) {
         alert("System Override: You must authorize voice telemetry capture to register.");
@@ -120,7 +118,7 @@
       params.append("stageName", document.getElementById("stageName").value);
       params.append("email", document.getElementById("email").value);
       params.append("genre", document.getElementById("genre").value);
-      params.append("contestOptIn", "Yes"); // Forced as 'Yes' since checkbox validation passed
+      params.append("contestOptIn", "Yes");
 
       fetch(CONFIG_API, {
         method: "POST",
