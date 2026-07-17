@@ -3,133 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sing Your Heart Out! - Cowboy Dashboard</title>
+  <title>Sing Your Heart Out! - Host Control Desk</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #1a0d07;
-      background-image: linear-gradient(rgba(26, 13, 7, 0.9), rgba(26, 13, 7, 0.97)), 
+      background-color: #8c5835;
+      background-image: linear-gradient(rgba(140, 88, 53, 0.9), rgba(115, 69, 36, 0.97)), 
                         url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1200');
       background-size: cover;
-      color: #ebdcb9;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    .cowboy-title {
-      font-family: 'Special Elite', monospace;
+      color: #2b1a0d;
+      font-family: Arial, Helvetica, sans-serif;
     }
     
-    /* ⚡ Precise Neon Purple Frame Trim */
-    .neon-border-purple {
-      border: 2px solid #b624ff;
-      box-shadow: 0 0 12px #aa00ff, inset 0 0 6px rgba(170, 0, 255, 0.2);
-      background-color: #120703;
+    /* ⚡ Clean Old Paper Card Content Box with Neon Purple Highlight Loop */
+    .parchment-mainframe {
+      background-color: #f7ebd3;
+      border: 4px solid #8c5835;
+      outline: 3px solid #b624ff;
+      box-shadow: 0 0 20px #aa00ff, inset 0 0 10px rgba(170, 0, 255, 0.15);
     }
 
-    /* 🟢 Mic Armed (Emerald Matrix Light) */
+    /* 🟢 Microphone Armed State */
     .btn-ready {
       background-color: #10b981 !important;
       color: white !important;
-      border: 1px solid #34d399 !important;
-      box-shadow: 0 0 10px #10b981;
+      border-bottom: 4px solid #047857 !important;
       transition: all 0.2s ease-in-out;
     }
     .btn-ready:hover {
-      box-shadow: 0 0 18px #10b981;
       filter: brightness(1.1);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
-    /* 🟡 Mic Countdown Mode */
+    /* 🟡 Microphone Countdown Mode */
     .btn-countdown {
       background-color: #d97706 !important;
       color: white !important;
-      border: 2px dashed #f59e0b !important;
-      box-shadow: 0 0 15px #d97706;
+      border-bottom: 4px solid #92400e !important;
       cursor: not-allowed !important;
     }
 
-    /* 🔴 Mic Hot Recording (Pulsing Plasma Light) */
+    /* 🔴 Microphone Active Recording (Pulsing Laser Frame Override) */
     .btn-live {
       background-color: #dc2626 !important;
       color: white !important;
-      border: 1px solid #f87171 !important;
-      box-shadow: 0 0 25px #dc2626;
-      animation: neonPulse 1.4s infinite ease-in-out;
+      border-bottom: 4px solid #991b1b !important;
+      animation: alertPulse 1.4s infinite ease-in-out;
       cursor: not-allowed !important;
     }
 
-    @keyframes neonPulse {
-      0% { box-shadow: 0 0 15px #dc2626; opacity: 1; }
-      50% { box-shadow: 0 0 30px #ef4444; opacity: 0.9; }
-      100% { box-shadow: 0 0 15px #dc2626; opacity: 1; }
+    @keyframes alertPulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.85; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-6xl mx-auto">
-    <!-- Main Console Bar -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 p-6 rounded-xl relative gap-4 neon-border-purple">
+    <!-- Main Command Banner -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 p-6 rounded-xl relative gap-4 parchment-mainframe">
       <div>
-        <h1 class="text-3xl font-black text-white tracking-wider uppercase filter drop-shadow-[0_0_5px_#aa00ff] cowboy-title">COWBOY MAINFRAME</h1>
-        <p class="text-xs text-[#ebdcb9] opacity-60 font-mono uppercase tracking-widest mt-1">SATELLITE AUDIT STREAM // NODE.01</p>
+        <h1 class="text-3xl font-black tracking-tight text-[#2b1a0d] uppercase">COWBOY MAINFRAME</h1>
+        <p class="text-xs text-[#aa00ff] font-bold uppercase tracking-widest mt-1">Live Telemetry Terminal // Node.01</p>
       </div>
       <div>
-        <button onclick="triggerEndContest()" class="px-6 py-3 bg-[#b624ff] text-white font-bold rounded-lg border border-white hover:bg-[#aa00ff] transition-all text-xs uppercase tracking-widest font-mono shadow-md filter drop-shadow-[0_0_4px_#aa00ff]">
+        <button onclick="triggerEndContest()" class="px-6 py-3 bg-[#aa00ff] hover:bg-[#b624ff] text-white font-black rounded-lg transition-all text-xs uppercase tracking-widest border-b-4 border-[#7b00b8] shadow-md">
           🏆 COMPLETE CONTEST OVERRIDE
         </button>
       </div>
     </div>
 
-    <!-- Layout Matrix Workspace -->
+    <!-- Active Interface Workspace -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Stage Scanner Frame -->
-      <div class="lg:col-span-2 p-6 rounded-xl flex flex-col justify-between min-h-[420px] neon-border-purple">
+      <div class="lg:col-span-2 p-6 rounded-xl flex flex-col justify-between min-h-[420px] parchment-mainframe">
         <div>
-          <h2 class="text-xs font-bold tracking-widest text-[#ebdcb9] opacity-50 uppercase font-mono border-b border-[#4a2e1b] pb-2 mb-4">Live Audio Input Array</h2>
+          <h2 class="text-xs font-black tracking-widest text-[#a68463] uppercase border-b-2 border-solid border-[#e2d0b5] pb-2 mb-4">Live Audio Telemetry Deck</h2>
           
-          <!-- Selected Performer Frame -->
-          <div class="bg-[#1c0f0a] p-5 rounded-lg border border-[#4a2e1b] mb-6">
-            <span class="text-[9px] font-mono tracking-widest uppercase text-[#b624ff] bg-[#341242] px-2 py-0.5 rounded border border-[#671f82]">Target Matrix Bound</span>
-            <div id="activeSingerDisplay" class="text-3xl font-black text-white mt-3 tracking-wide font-mono">No Outlaw Selected</div>
-            <div id="activeGenreDisplay" class="text-xs text-[#ebdcb9] opacity-60 font-mono italic mt-1">Standby... Arm track array via side console queue.</div>
+          <!-- Selected Singer Display Profile -->
+          <div class="bg-[#f0e0c1] p-5 rounded-lg border-2 border-[#a68463] mb-6">
+            <span class="text-[10px] tracking-widest uppercase font-bold text-white bg-[#aa00ff] px-2 py-0.5 rounded">Active Target Target</span>
+            <div id="activeSingerDisplay" class="text-3xl font-black text-[#2b1a0d] mt-3 tracking-tight">NO OUTLAW SELECTED</div>
+            <div id="activeGenreDisplay" class="text-xs text-[#a68463] font-bold italic mt-1">Select a performer from the deployment matrix queue...</div>
           </div>
 
-          <!-- Pitch Windows -->
+          <!-- Sensor Readouts Array -->
           <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-            <div class="bg-[#1c0f0a] p-4 rounded-lg border border-[#4a2e1b]">
-              <div class="text-[10px] font-mono font-bold text-[#ebdcb9] opacity-50 uppercase tracking-wider">Node 1 (30s)</div>
-              <div id="pitchReadout1" class="text-2xl font-mono font-black text-white mt-2">-- Hz</div>
+            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
+              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 1 (30s)</div>
+              <div id="pitchReadout1" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
-            <div class="bg-[#1c0f0a] p-4 rounded-lg border border-[#4a2e1b]">
-              <div class="text-[10px] font-mono font-bold text-[#ebdcb9] opacity-50 uppercase tracking-wider">Node 2 (45s)</div>
-              <div id="pitchReadout2" class="text-2xl font-mono font-black text-white mt-2">-- Hz</div>
+            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
+              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 2 (45s)</div>
+              <div id="pitchReadout2" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
-            <div class="bg-[#1c0f0a] p-4 rounded-lg border border-[#4a2e1b]">
-              <div class="text-[10px] font-mono font-bold text-[#ebdcb9] opacity-50 uppercase tracking-wider">Node 3 (75s)</div>
-              <div id="pitchReadout3" class="text-2xl font-mono font-black text-white mt-2">-- Hz</div>
+            <div class="bg-[#f2dfb8] p-4 rounded-lg border border-[#a68463]">
+              <div class="text-[10px] font-bold text-[#a68463] uppercase tracking-wider">Node 3 (75s)</div>
+              <div id="pitchReadout3" class="text-2xl font-black text-[#2b1a0d] mt-2">-- Hz</div>
             </div>
           </div>
         </div>
 
-        <!-- System Hot Trigger -->
+        <!-- Hot Switch Trigger -->
         <div>
-          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded-lg text-center font-bold text-sm uppercase tracking-widest font-mono transition-all btn-ready opacity-20 cursor-not-allowed">
-            [ WAITING FOR TELEMETRY UPLINK ]
+          <button id="recordBtn" onclick="initiatePerformanceSequence()" disabled class="w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed">
+            [ STANDBY FOR TARGET CONFIGURATION ]
           </button>
         </div>
       </div>
 
-      <!-- Outlaw Queue Frame -->
-      <div class="p-6 rounded-xl neon-border-purple">
-        <div class="flex justify-between items-center border-b border-[#4a2e1b] pb-2 mb-4">
-          <h2 class="text-xs font-bold tracking-widest text-[#ebdcb9] opacity-50 uppercase font-mono">Outlaw Queue Matrix</h2>
-          <button onclick="refreshDashboardData()" class="text-xs text-[#b624ff] font-bold tracking-wider hover:underline font-mono">🔄 PING ROSTER</button>
-        </div>
-        
-        <div id="queueContainer" class="space-y-3 max-h-[460px] overflow-y-auto pr-1">
-          <p class="text-xs text-[#ebdcb9] opacity-40 font-mono italic text-center py-8">Scanning for rogue audio signatures...</p>
+      <!-- Outlaw Roster Control Card -->
+      <div class="p-6 rounded-xl flex flex-col justify-between parchment-mainframe">
+        <div>
+          <div class="flex justify-between items-center border-b-2 border-solid border-[#e2d0b5] pb-2 mb-4">
+            <h2 class="text-xs font-black tracking-widest text-[#a68463] uppercase">Outlaw Queue Matrix</h2>
+            <button onclick="refreshDashboardData()" class="text-xs text-[#aa00ff] font-black tracking-wider hover:underline">🔄 PING ROSTER</button>
+          </div>
+          
+          <div id="queueContainer" class="space-y-3 max-h-[420px] overflow-y-auto pr-1">
+            <p class="text-xs text-[#a68463] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
+          </div>
         </div>
       </div>
 
@@ -157,24 +153,24 @@
       queueContainer.innerHTML = "";
 
       if (!response.success || response.payload.queue.length === 0) {
-        queueContainer.innerHTML = `<p class="text-xs text-[#ebdcb9] opacity-40 font-mono italic text-center py-8">No active hardware nodes linked in this sector.</p>`;
+        queueContainer.innerHTML = `<p class="text-xs text-[#a68463] font-bold italic text-center py-8">No active target data logs running.</p>`;
         return;
       }
 
       response.payload.queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.status.includes("Analyzed");
-        item.className = `p-3 rounded-lg border transition-all cursor-pointer flex justify-between items-center font-mono ${
-          parsed ? "bg-[#1c0b1f] border-[#53176e] opacity-40" : "bg-[#1c0f0a] border-[#4a2e1b] hover:border-[#b624ff]"
+        item.className = `p-3 rounded-lg border-2 transition-all cursor-pointer flex justify-between items-center ${
+          parsed ? "bg-[#eeddb8] border-[#cbb393] opacity-50" : "bg-white border-[#a68463] hover:border-[#aa00ff]"
         }`;
         
         item.innerHTML = `
           <div>
-            <div class="font-bold text-white text-sm">${singer.stageName}</div>
-            <div class="text-[10px] text-[#ebdcb9] opacity-60 mt-0.5">${singer.genre}</div>
+            <div class="font-black text-[#2b1a0d] text-sm">${singer.stageName}</div>
+            <div class="text-[10px] text-[#a68463] font-bold mt-0.5">${singer.genre}</div>
           </div>
-          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider border ${
-            parsed ? "bg-[#341242] text-[#e07eff] border-[#671f82]" : "bg-[#25150e] text-[#ebdcb9] border-[#4a2e1b]"
+          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider font-bold border ${
+            parsed ? "bg-[#ebd3f7] text-[#9317db] border-[#cfacf2]" : "bg-[#f2dfb8] text-[#2b1a0d] border-[#a68463]"
           }">${singer.status.toUpperCase()}</span>
         `;
 
@@ -191,8 +187,8 @@
       activeSingerDisplay.innerText = name.toUpperCase();
       activeGenreDisplay.innerText = `FREQ SECTOR // ${genre.toUpperCase()}`;
       
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-bold text-sm uppercase tracking-widest font-mono transition-all btn-ready";
-      recordBtn.innerText = "⚡ RUN MIC COUPLINK INTERFACE";
+      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready";
+      recordBtn.innerText = "⚡ RUN TELEMETRY INTERFACE LOG";
       recordBtn.disabled = false;
 
       document.getElementById("pitchReadout1").innerText = "-- Hz";
@@ -203,11 +199,11 @@
 
     function initiatePerformanceSequence() {
       let countdown = 5;
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-bold text-sm uppercase tracking-widest font-mono transition-all btn-countdown";
+      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-countdown";
       recordBtn.disabled = true;
 
       const countdownTimer = setInterval(() => {
-        recordBtn.innerText = `🚨 SCANNER LIVE IN: ${countdown}s`;
+        recordBtn.innerText = `🚨 CAPTURE CORE ONLINE IN: ${countdown}s`;
         countdown--;
 
         if (countdown < 0) {
@@ -218,8 +214,8 @@
     }
 
     function executeLiveAudioRecording() {
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-bold text-sm uppercase tracking-widest font-mono transition-all btn-live";
-      recordBtn.innerText = "📡 MONITOR ACTIVE // SAMPLING FREQUENCY ARRAY";
+      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-live";
+      recordBtn.innerText = "📡 MONITOR ACTIVE // SAMPLING FREQUENCY METRICS";
       
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         .then(stream => {
@@ -232,7 +228,7 @@
           runTimelineCaptureLoop();
         })
         .catch(err => {
-          alert("Audio link drop detected.");
+          alert("Audio hardware connection fault.");
           resetHardwareState();
         });
     }
@@ -271,7 +267,7 @@
     }
 
     function transmitMetricsToServer() {
-      recordBtn.innerText = "🛰️ STREAMING TELEMETRY PACKETS TO MAIN SYSTEM...";
+      recordBtn.innerText = "🛰️ STREAMING PACKETS TO CENTRAL ARCHIVE...";
       const formData = new URLSearchParams();
       formData.append("action", "streamPerformanceMetrics");
       formData.append("email", selectedEmail);
@@ -287,12 +283,12 @@
       })
       .then(res => res.json())
       .then(data => {
-        alert(data.success ? "Telemetry packet verified by AI engine." : "Transmission dropped.");
+        alert(data.success ? "Telemetry packets processed cleanly by AI core." : "Pipeline processing error.");
         resetHardwareState();
         refreshDashboardData();
       })
       .catch(err => {
-        alert("Satellite routing dropout.");
+        alert("Satellite uplink offline.");
         resetHardwareState();
       });
     }
@@ -302,10 +298,10 @@
       if (sourceStream) sourceStream.getTracks().forEach(t => t.stop());
       if (audioCtx) audioCtx.close();
       selectedEmail = ""; selectedName = "";
-      activeSingerDisplay.innerText = "No Outlaw Selected";
-      activeGenreDisplay.innerText = "Standby... Arm track array via side console queue.";
-      recordBtn.className = "w-full py-5 rounded-lg text-center font-bold text-sm uppercase tracking-widest font-mono transition-all btn-ready opacity-20 cursor-not-allowed";
-      recordBtn.innerText = "[ WAITING FOR TELEMETRY UPLINK ]";
+      activeSingerDisplay.innerText = "NO OUTLAW SELECTED";
+      activeGenreDisplay.innerText = "Select a performer from the deployment matrix queue...";
+      recordBtn.className = "w-full py-5 rounded-lg text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
+      recordBtn.innerText = "[ STANDBY FOR TARGET CONFIGURATION ]";
       recordBtn.disabled = true;
     }
 
@@ -318,7 +314,7 @@
     }
 
     window.contestClosureConfirmation = function(response) {
-      alert("Mainframe records closed, finalized, and logged.");
+      alert("Central sector data records purged and finalized.");
       resetHardwareState();
       refreshDashboardData();
     };
