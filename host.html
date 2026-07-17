@@ -22,7 +22,7 @@
       background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
       background-size: 12px 12px;
       clip-path: polygon(
-        0% 1.5%, 4% 0%, 9% 2%, 13% 0.5%, 18% 2.5%, 22% 0.5%, 27% 2%, 31% 0%, 36% 1.5%, 40% 0%, 45% 2%, 50% 0.5%, 54% 2.5%, 59% 0.5%, 63% 2%, 68% 0%, 72% 1.5%, 77% 0.5%, 81% 2.5%, 86% 0%, 90% 2%, 95% 0.5%, 98% 2.5%, 100% 0.5%,
+        0% 1.5%, 4% 0%, 9% 2%, 13% 0.5%, 18% 2.5%, 22% 0.5%, 27% 2%, 31% 0%, 36% 1.5%, 40% 0%, 45% 2%, 50% 0.5%, 54% 2.5%, 59% 0.5%, 63% 2%, 68% 0%, 72% 1.5%, 77% 0.5%, 81% 2.5%, 86% 0%, 90% 2%, 95% 0.5%, 98% 2.5%, 100% 0.5.,
         100% 98.5%, 96% 100%, 91% 97.5%, 87% 99.5%, 82% 97%, 78% 99.5%, 73% 97.5%, 69% 100%, 64% 97.5%, 60% 99.5%, 55% 97%, 51% 99.5%, 46% 97.5%, 42% 100%, 37% 97.5%, 33% 99.5%, 28% 97%, 24% 99.5%, 19% 97.5%, 15% 100%, 10% 97%, 6% 99%, 3% 97.5%, 0% 99.5%
       );
       padding: 2.5rem;
@@ -30,12 +30,22 @@
       transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ⏳ LIVE INTERACTIVE PARCHMENT STATE FILTERS */
-    /* Countdown State: Visual Sepia Heat Overlays */
+    /* Custom scrollbar handling for the condensed queue */
+    .custom-queue-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-queue-scroll::-webkit-scrollbar-track {
+      background: #ebd9b5;
+      border-radius: 3px;
+    }
+    .custom-queue-scroll::-webkit-scrollbar-thumb {
+      background: #7a4b29;
+      border-radius: 3px;
+    }
+
     .parchment-countdown-state {
       filter: sepia(0.35) saturate(1.2) contrast(1.05);
     }
-    /* Recording Hot State: Gritty Dynamic High-Contrast Warning Focus */
     .parchment-recording-state {
       filter: sepia(0.1) saturate(1.4) contrast(1.15);
       animation: paperVibe 0.2s infinite linear;
@@ -47,14 +57,12 @@
       100% { transform: translate(0, 0); }
     }
 
-    /* 🗃️ Louvale Style Solid Dark Sub-Card Panels */
     .inner-dark-card {
       background-color: #2b1b11;
       color: #f7ebd3;
       border: 1px solid #4a3120;
     }
 
-    /* 🟢 Ready Control Mode */
     .btn-ready {
       background-color: #10b981 !important;
       color: white !important;
@@ -66,7 +74,6 @@
       filter: brightness(1.1);
     }
 
-    /* 🟡 Warning Countdown Mode */
     .btn-countdown {
       background-color: #d97706 !important;
       color: white !important;
@@ -75,7 +82,6 @@
       cursor: not-allowed !important;
     }
 
-    /* 🔴 Live Hot Capture Target Mode */
     .btn-live {
       background-color: #dc2626 !important;
       color: white !important;
@@ -112,7 +118,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       
       <!-- Stage Telemetry Core Deck Card -->
-      <div id="mainDeckPaper" class="lg:col-span-2 flex flex-col justify-between min-h-[440px] parchment-container">
+      <div id="mainDeckPaper" class="lg:col-span-2 flex flex-col justify-between min-h-[550px] parchment-container">
         <div>
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">Live Audio Input Array</h2>
           
@@ -148,14 +154,15 @@
         </div>
       </div>
 
-      <!-- Outlaw Roster Card -->
-      <div id="sideQueuePaper" class="parchment-container">
+      <!-- Outlaw Roster Card (Condensed Edition with Custom Scrolldown) -->
+      <div id="sideQueuePaper" class="parchment-container min-h-[550px] flex flex-col">
         <div class="flex justify-between items-center border-b-2 border-solid border-[#d1be9b] pb-2 mb-4">
           <h2 class="text-xs font-black tracking-widest text-[#7a5535] uppercase">Outlaw Queue Matrix</h2>
-          <button onclick="refreshDashboardData()" class="text-xs text-[#7a4b29] font-black tracking-wider hover:underline">🔄 PING ROSTER</button>
+          <button onclick="refreshDashboardData()" class="text-xs text-[#7a4b29] font-black tracking-wider hover:underline">🔄 PING</button>
         </div>
         
-        <div id="queueContainer" class="space-y-3 max-h-[400px] overflow-y-auto pr-1">
+        <!-- Locked Scroll Container Layer -->
+        <div id="queueContainer" class="space-y-2 max-h-[440px] overflow-y-auto pr-1 flex-1 custom-queue-scroll">
           <p class="text-xs text-[#7a5535] font-bold italic text-center py-8">Scanning for rogue audio signatures...</p>
         </div>
       </div>
@@ -172,7 +179,6 @@
     const activeSingerDisplay = document.getElementById("activeSingerDisplay");
     const activeGenreDisplay = document.getElementById("activeGenreDisplay");
     
-    // Live State Paper Hooks
     const mainDeckPaper = document.getElementById("mainDeckPaper");
     const headerPaper = document.getElementById("headerPaper");
     const sideQueuePaper = document.getElementById("sideQueuePaper");
@@ -196,23 +202,31 @@
       response.payload.queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.status.includes("Analyzed");
-        item.className = `p-3 rounded border-2 transition-all cursor-pointer flex justify-between items-center ${
-          parsed ? "bg-[#ebd9b5] border-[#c2aa80] opacity-40" : "bg-white border-[#a68463] hover:border-[#7a4b29]"
+        
+        // Highly condensed layout structure using grid tracking
+        item.className = `p-2 rounded border transition-all flex items-center justify-between text-xs ${
+          parsed ? "bg-[#ebd9b5] border-[#c2aa80] opacity-40" : "bg-white border-[#a68463]"
         }`;
         
-        item.innerHTML = `
-          <div>
-            <div class="font-black text-[#2b1a0d] text-sm tracking-tight">${singer.stageName}</div>
-            <div class="text-[10px] text-[#7a5535] font-bold mt-0.5">${singer.genre}</div>
-          </div>
-          <span class="text-[9px] px-2 py-0.5 rounded tracking-wider font-black border ${
-            parsed ? "bg-[#2b1b11] text-[#f7ebd3] border-[#4a3120]" : "bg-[#ebd9b5] text-[#2b1a0d] border-[#c2aa80]"
-          }">${singer.status.toUpperCase()}</span>
-        `;
-
-        if (!parsed) {
-          item.onclick = () => loadContestantIntoScanner(singer.email, singer.stageName, singer.genre);
+        if (parsed) {
+          item.innerHTML = `
+            <div class="font-bold text-[#7a5535] truncate max-w-[120px] line-through">${singer.stageName}</div>
+            <span class="text-[9px] font-black text-[#7a5535] uppercase tracking-tight italic">SUNG</span>
+          `;
+        } else {
+          item.innerHTML = `
+            <div class="font-black text-[#2b1a0d] truncate max-w-[110px] uppercase">${singer.stageName}</div>
+            <button class="px-3 py-1 bg-[#7a4b29] hover:bg-[#613b1f] text-white font-black rounded uppercase text-[10px] tracking-wide transition-all shadow-sm">
+              ACTIVATE
+            </button>
+          `;
+          // Attach row selection click strictly to the button action trigger
+          item.querySelector("button").onclick = (e) => {
+            e.stopPropagation();
+            loadContestantIntoScanner(singer.email, singer.stageName, singer.genre);
+          };
         }
+        
         queueContainer.appendChild(item);
       });
     };
@@ -228,7 +242,7 @@
       recordBtn.disabled = false;
 
       document.getElementById("pitchReadout1").innerText = "-- Hz";
-      document.getElementById("pitchReadout2").getElementById("pitchReadout2").innerText = "-- Hz";
+      document.getElementById("pitchReadout2").innerText = "-- Hz";
       document.getElementById("pitchReadout3").innerText = "-- Hz";
       capturedPitches = [];
     }
@@ -236,7 +250,6 @@
     function initiatePerformanceSequence() {
       let countdown = 5;
       
-      // ⏳ TRIGGER LIVE STATE: Apply Sepia Heat Layer to the Parchment Sheets
       mainDeckPaper.classList.add("parchment-countdown-state");
       headerPaper.classList.add("parchment-countdown-state");
       sideQueuePaper.classList.add("parchment-countdown-state");
@@ -256,7 +269,6 @@
     }
 
     function executeLiveAudioRecording() {
-      // ⏳ TRIGGER LIVE STATE: Transition Paper Layers into Gritty High-Contrast Shake Mode
       mainDeckPaper.classList.remove("parchment-countdown-state");
       headerPaper.classList.remove("parchment-countdown-state");
       sideQueuePaper.classList.remove("parchment-countdown-state");
@@ -349,14 +361,13 @@
       if (sourceStream) sourceStream.getTracks().forEach(t => t.stop());
       if (audioCtx) audioCtx.close();
       
-      // ⏳ RESET INTERACTIVE STATES: Restore static look to paper elements
-      mainDeckPaper.className = "lg:col-span-2 flex flex-col justify-between min-h-[440px] parchment-container";
+      mainDeckPaper.className = "lg:col-span-2 flex flex-col justify-between min-h-[550px] parchment-container";
       headerPaper.className = "flex flex-col md:flex-row justify-between items-center parchment-container";
-      sideQueuePaper.className = "parchment-container";
+      sideQueuePaper.className = "parchment-container min-h-[550px] flex flex-col";
       
       selectedEmail = ""; selectedName = "";
       activeSingerDisplay.innerText = "NO OUTLAW SELECTED";
-      activeGenreDisplay.innerText = "Select a performer from the queue matrix...";
+      activeGenreDisplay.innerText = "Select a performer from the side configuration panel...";
       recordBtn.className = "w-full py-5 rounded text-center font-black text-sm uppercase tracking-widest transition-all btn-ready opacity-30 cursor-not-allowed";
       recordBtn.innerText = "[ STANDBY FOR TARGET CONFIGURATION ]";
       recordBtn.disabled = true;
