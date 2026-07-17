@@ -183,36 +183,29 @@
     const headerPaper = document.getElementById("headerPaper");
     const sideQueuePaper = document.getElementById("sideQueuePaper");
 
+    // 📡 JSONP Architecture: Bypasses browser CORS blocking via native script injection
     function refreshDashboardData() {
-      const queueContainer = document.getElementById("queueContainer");
+      const script = document.createElement("script");
+      // Appends random cache-buster timestamp parameter to prevent browser file caching
+      script.src = `${WEB_APP_URL}?action=getHostData&callback=renderDashboard&ts=${new Date().getTime()}`;
+      document.body.appendChild(script);
       
-      fetch(`${WEB_APP_URL}?action=getHostData`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.success && data.payload) {
-            renderDashboard(data.payload);
-          } else {
-            queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
-          }
-        })
-        .catch(err => {
-          console.error("Link Failure:", err);
-          queueContainer.innerHTML = `<p class="text-xs text-red-700 font-bold italic text-center py-8">Uplink drop caught.</p>`;
-        });
+      // Clean up the script tag from DOM right after execution
+      script.onload = function() {
+        document.body.removeChild(script);
+      };
     }
 
-    window.renderDashboard = function(payload) {
+    window.renderDashboard = function(response) {
       const queueContainer = document.getElementById("queueContainer");
       queueContainer.innerHTML = "";
 
-      const queue = payload.queue || [];
-
-      if (queue.length === 0) {
+      if (!response || !response.success || !response.payload || response.payload.queue.length === 0) {
         queueContainer.innerHTML = `<p class="text-xs text-[#7a5535] font-bold italic text-center py-8">No targets active in sector data logs.</p>`;
         return;
       }
 
-      queue.forEach(singer => {
+      response.payload.queue.forEach(singer => {
         const item = document.createElement("div");
         const parsed = singer.hasSung === true; 
         
@@ -385,16 +378,20 @@
 
     function triggerEndContest() {
       if (!confirm("Decommission system telemetry tracking permanently for tonight?")) return;
+      const script = document.createElement("script");
+      script.src = `${WEB_APP_URL}?action=triggerContestClosure&callback=contestClosureConfirmation`;
+      document.body.appendChild(script);
       
-      fetch(`${WEB_APP_URL}?action=triggerContestClosure`)
-        .then(res => res.json())
-        .then(data => {
-          alert("Central sector data records purged and finalized.");
-          resetHardwareState();
-          refreshDashboardData();
-        })
-        .catch(err => alert("Closure execution drop caught."));
+      script.onload = function() {
+        document.body.removeChild(script);
+      };
     }
+
+    window.contestClosureConfirmation = function(response) {
+      alert("Central sector data records purged and finalized.");
+      resetHardwareState();
+      refreshDashboardData();
+    };
 
     window.onload = refreshDashboardData;
   </script>
